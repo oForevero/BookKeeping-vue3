@@ -15,7 +15,7 @@ const dashboard: AppRouteModule = {
     orderNo: 100000,
   },
   children: [
-    {
+    /*{
       path: 'index',
       name: 'AboutPage',
       component: () => import('/@/views/sys/about/index.vue'),
@@ -24,7 +24,7 @@ const dashboard: AppRouteModule = {
         icon: 'simple-icons:about-dot-me',
         hideMenu: true,
       },
-    },
+    },*/
   ],
 };
 
