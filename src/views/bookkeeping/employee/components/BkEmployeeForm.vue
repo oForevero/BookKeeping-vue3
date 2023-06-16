@@ -14,7 +14,7 @@
     import { propTypes } from '/@/utils/propTypes';
     import {getBpmFormSchema} from '../BkEmployee.data';
     import {saveOrUpdate} from '../BkEmployee.api';
-    
+
     export default defineComponent({
         name: "BkEmployeeForm",
         components:{
@@ -40,7 +40,7 @@
             });
 
             let formData = {};
-            const queryByIdUrl = '/org.jeecg.bookkeeping/bkEmployee/queryById';
+            const queryByIdUrl = '/bookkeeping/bkEmployee/queryById';
             async function initFormData(){
                 let params = {id: props.formData.dataId};
                 const data = await defHttp.get({url: queryByIdUrl, params});
@@ -59,7 +59,7 @@
             }
 
             initFormData();
-            
+
             return {
                 registerForm,
                 formDisabled,

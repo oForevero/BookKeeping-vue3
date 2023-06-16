@@ -4,13 +4,13 @@ import { useMessage } from "/@/hooks/web/useMessage";
 const { createConfirm } = useMessage();
 
 enum Api {
-  list = '/org.jeecg.bookkeeping/bkProductRelation/list',
-  save='/org.jeecg.bookkeeping/bkProductRelation/add',
-  edit='/org.jeecg.bookkeeping/bkProductRelation/edit',
-  deleteOne = '/org.jeecg.bookkeeping/bkProductRelation/delete',
-  deleteBatch = '/org.jeecg.bookkeeping/bkProductRelation/deleteBatch',
-  importExcel = '/org.jeecg.bookkeeping/bkProductRelation/importExcel',
-  exportXls = '/org.jeecg.bookkeeping/bkProductRelation/exportXls',
+  list = '/bookkeeping/bkProductRelation/list',
+  save='/bookkeeping/bkProductRelation/add',
+  edit='/bookkeeping/bkProductRelation/edit',
+  deleteOne = '/bookkeeping/bkProductRelation/delete',
+  deleteBatch = '/bookkeeping/bkProductRelation/deleteBatch',
+  importExcel = '/bookkeeping/bkProductRelation/importExcel',
+  exportXls = '/bookkeeping/bkProductRelation/exportXls',
 }
 /**
  * 导出api

@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<script lang="ts" name="org.jeecg.bookkeeping-bkCollaborator" setup>
+<script lang="ts" name="bookkeeping-bkCollaborator" setup>
   import {ref, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
   import {useModal} from '/@/components/Modal';
