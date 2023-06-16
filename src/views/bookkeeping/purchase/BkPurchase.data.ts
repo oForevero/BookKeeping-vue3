@@ -5,7 +5,7 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
    {
-    title: '进货时间，日期数据',
+    title: '进货时间',
     align:"center",
     dataIndex: 'purchaseDate',
     customRender:({text}) =>{
@@ -23,27 +23,27 @@ export const columns: BasicColumn[] = [
     dataIndex: 'purchaseItem'
    },
    {
-    title: '进货个数，支持小数，缩进两位小数',
+    title: '进货个数',
     align:"center",
     dataIndex: 'purchaseAmount'
    },
    {
-    title: '进货物品单价',
+    title: '单价',
     align:"center",
     dataIndex: 'purchaseUnitPrice'
    },
    {
-    title: '进货物品总价，最大值100亿',
+    title: '总价',
     align:"center",
     dataIndex: 'purchasePrice'
    },
    {
-    title: '进货备注，最大100字',
+    title: '进货备注',
     align:"center",
     dataIndex: 'purchaseRemark'
    },
    {
-    title: '发票类型，0普通票，1增值税，2未开具',
+    title: '发票类型',
     align:"center",
     dataIndex: 'purchaseReceipt'
    },
@@ -54,7 +54,7 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '进货时间，日期数据',
+    label: '进货时间',
     field: 'purchaseDate',
     component: 'DatePicker',
     dynamicRules: ({model,schema}) => {
@@ -94,7 +94,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '进货物品单价',
+    label: '单价',
     field: 'purchaseUnitPrice',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
@@ -104,17 +104,17 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '进货物品总价，最大值100亿',
+    label: '总价',
     field: 'purchasePrice',
     component: 'InputNumber',
   },
   {
-    label: '进货备注，最大100字',
+    label: '备注',
     field: 'purchaseRemark',
     component: 'InputTextArea',
   },
   {
-    label: '发票类型，0普通票，1增值税，2未开具',
+    label: '发票类型',
     field: 'purchaseReceipt',
     component: 'InputNumber',
   },
