@@ -58,7 +58,7 @@
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
-           title: 'bk_collaborator',
+           title: '供货商/客户',
            api: list,
            columns,
            canResize:false,
@@ -78,7 +78,7 @@
             },
       },
        exportConfig: {
-            name:"bk_collaborator",
+            name:"供货商/客户",
             url: getExportUrl,
           },
           importConfig: {
