@@ -1,11 +1,11 @@
 <template>
     <div class="app-loading">
         <div class="app-loading-wrap">
-            <img src="/resource/img/logo.png" class="app-loading-logo" alt="Logo">
+            <img src="/resource/img/cat_logo.png" class="app-loading-logo" alt="Logo">
             <div class="app-loading-dots">
                 <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
             </div>
-            <div class="app-loading-title">JeecgBoot 企业级低代码平台</div>
+            <div class="app-loading-title">Halo 轻量级记账系统</div>
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { useUserStore } from '/@/store/modules/user';
   import { useI18n } from '/@/hooks/web/useI18n';
-  
+
   export default {
     name: "TokenLogin",
     setup(){
@@ -31,7 +31,7 @@
       if(!routeQuery){
         createMessage.warning('参数无效')
       }
-     
+
       const token = routeQuery['loginToken'];
       if(!token){
         createMessage.warning('token无效')
@@ -53,7 +53,7 @@
           duration: 4,
         });
       }
-      
+
       function requestSuccess(res){
         let info = routeQuery.info;
         if(info){
@@ -128,7 +128,7 @@
 
     .app-loading .app-loading-logo {
         display: block;
-        width: 90px;
+        width: 300px;
         margin: 0 auto;
         margin-bottom: 20px;
     }
