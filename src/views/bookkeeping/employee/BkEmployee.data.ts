@@ -46,7 +46,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '是否已离职 0正常，1已离职',
+    label: '工作状态',
     field: 'employeeStatus',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
