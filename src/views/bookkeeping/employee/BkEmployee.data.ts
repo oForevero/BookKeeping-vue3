@@ -26,7 +26,7 @@ export const searchFormSchema: FormSchema[] = [
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '本公司所属采购员工名',
+    label: '员工名',
     field: 'employeeName',
     component: 'Input',
     dynamicRules: ({model,schema}) => {
@@ -36,7 +36,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '本公司所属采购员工手机号',
+    label: '员工手机号',
     field: 'employeePhone',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
