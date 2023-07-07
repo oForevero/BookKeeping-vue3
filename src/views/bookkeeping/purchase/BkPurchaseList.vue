@@ -50,7 +50,7 @@
   import { useListPage } from '/@/hooks/system/useListPage'
   import BkPurchaseModal from './components/BkPurchaseModal.vue'
   import {columns, searchFormSchema} from './BkPurchase.data';
-  import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkPurchase.api';
+  import {list, deleteOne, batchDelete, getImportUrl, getExportUrl, listPurchaseGroup} from './BkPurchase.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model

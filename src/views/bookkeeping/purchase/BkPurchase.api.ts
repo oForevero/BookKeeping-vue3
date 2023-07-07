@@ -11,6 +11,10 @@ enum Api {
   deleteBatch = '/bookkeeping/bkPurchase/deleteBatch',
   importExcel = '/bookkeeping/bkPurchase/importExcel',
   exportXls = '/bookkeeping/bkPurchase/exportXls',
+  /**
+   * 获取进货客户api
+   */
+  listPurchaseGroup = '/bookkeeping/bkPurchase/listPurchaseGroup',
 }
 /**
  * 导出api
@@ -27,6 +31,9 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) =>
   defHttp.get({url: Api.list, params});
+
+export const listPurchaseGroup = (params) =>
+  defHttp.get({url: Api.listPurchaseGroup, params});
 
 /**
  * 删除单个
