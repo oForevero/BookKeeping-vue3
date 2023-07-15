@@ -1,5 +1,6 @@
 <template>
   <div>
+   <BasicTree class="w-1/3" title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList" />
     <!--引用表格-->
    <BasicTable @register="registerTable" :rowSelection="rowSelection">
      <!--插槽:table标题-->
@@ -49,9 +50,10 @@
   import {useModal} from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage'
   import BkProductModal from './components/BkProductModal.vue'
-  import {columns, searchFormSchema} from './BkProduct.data';
+  import {columns, searchFormSchema, treeData} from './BkProduct.data';
   import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
+  import {BasicTree, ContextMenuItem} from "/@/components/Tree";
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, {openModal}] = useModal();
@@ -86,7 +88,6 @@
             success: handleSuccess
           },
   })
-
   const [registerTable, {reload},{ rowSelection, selectedRowKeys }] = tableContext
 
    /**
@@ -165,6 +166,35 @@
        ]
    }
 
+  /**
+   * 右键list按钮
+   * @param node
+   */
+  function getRightMenuList(node: any): ContextMenuItem[] {
+    return [
+      {
+        label: '新增',
+        handler: () => {
+          console.log('点击了新增', node);
+        },
+        icon: 'bi:plus',
+      },
+      {
+        label: '修改',
+        handler: () => {
+          console.log('点击了修改', node);
+        },
+        icon: 'bi:edit',
+      },
+      {
+        label: '删除',
+        handler: () => {
+          console.log('点击了删除', node);
+        },
+        icon: 'bx:bxs-folder-open',
+      },
+    ];
+  }
 
 </script>
 

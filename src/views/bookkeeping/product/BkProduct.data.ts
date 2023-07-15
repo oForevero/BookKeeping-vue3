@@ -2,6 +2,7 @@ import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import {TreeItem} from "/@/components/Tree";
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -45,6 +46,39 @@ export const columns: BasicColumn[] = [
     dataIndex: 'brandId'
    },
 ];
+export const treeData: TreeItem[] = [
+  {
+    title: 'parent ',
+    key: '0-0',
+    children: [
+      { title: 'leaf', key: '0-0-0' },
+      {
+        title: 'leaf',
+        key: '0-0-1',
+        children: [
+          { title: 'leaf', key: '0-0-0-0', children: [{ title: 'leaf', key: '0-0-0-0-1' }] },
+          { title: 'leaf', key: '0-0-0-1' },
+        ],
+      },
+    ],
+  },
+  {
+    title: 'parent 2',
+    key: '1-1',
+    children: [
+      { title: 'leaf', key: '1-1-0' },
+      { title: 'leaf', key: '1-1-1' },
+    ],
+  },
+  {
+    title: 'parent 3',
+    key: '2-2',
+    children: [
+      { title: 'leaf', key: '2-2-0' },
+      { title: 'leaf', key: '2-2-1' },
+    ],
+  },
+]
 //查询数据
 export const searchFormSchema: FormSchema[] = [
 ];
