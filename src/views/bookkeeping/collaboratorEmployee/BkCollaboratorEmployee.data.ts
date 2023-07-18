@@ -15,7 +15,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'employeePhone'
    },
    {
-    title: '员工是否继续合作，0正常，1不合作或离职',
+    title: '工作状态',
     align:"center",
     dataIndex: 'employeeStatus'
    },
