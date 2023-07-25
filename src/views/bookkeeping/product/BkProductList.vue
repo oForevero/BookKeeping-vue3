@@ -1,14 +1,18 @@
 <template>
   <div>
-   <BasicTree class="w-1/3" title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList" />
-    <!--引用表格-->
-   <BasicTable @register="registerTable" :rowSelection="rowSelection">
-     <!--插槽:table标题-->
-      <template #tableTitle>
-          <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
-          <a-button  type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
-          <j-upload-button  type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
-          <a-dropdown v-if="selectedRowKeys.length > 0">
+    <a-row>
+      <a-col :span="5">
+        <BasicTree title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList" />
+      </a-col>
+      <a-col :span="19">
+        <!--引用表格-->
+        <BasicTable @register="registerTable" :rowSelection="rowSelection">
+          <!--插槽:table标题-->
+          <template #tableTitle>
+            <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
+            <a-button  type="primary" preIcon="ant-design:export-outlined" @click="onExportXls"> 导出</a-button>
+            <j-upload-button  type="primary" preIcon="ant-design:import-outlined" @click="onImportXls">导入</j-upload-button>
+            <a-dropdown v-if="selectedRowKeys.length > 0">
               <template #overlay>
                 <a-menu>
                   <a-menu-item key="1" @click="batchHandleDelete">
@@ -20,27 +24,29 @@
               <a-button>批量操作
                 <Icon icon="mdi:chevron-down"></Icon>
               </a-button>
-        </a-dropdown>
-      </template>
-       <!--操作栏-->
-      <template #action="{ record }">
-        <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)"/>
-      </template>
-      <!--字段回显插槽-->
-      <template #htmlSlot="{text}">
-         <div v-html="text"></div>
-      </template>
-      <!--省市区字段回显插槽-->
-      <template #pcaSlot="{text}">
-         {{ getAreaTextByCode(text) }}
-      </template>
-      <template #fileSlot="{text}">
-         <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
-         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
-      </template>
-    </BasicTable>
-    <!-- 表单区域 -->
-    <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
+            </a-dropdown>
+          </template>
+          <!--操作栏-->
+          <template #action="{ record }">
+            <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)"/>
+          </template>
+          <!--字段回显插槽-->
+          <template #htmlSlot="{text}">
+            <div v-html="text"></div>
+          </template>
+          <!--省市区字段回显插槽-->
+          <template #pcaSlot="{text}">
+            {{ getAreaTextByCode(text) }}
+          </template>
+          <template #fileSlot="{text}">
+            <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
+            <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
+          </template>
+        </BasicTable>
+        <!-- 表单区域 -->
+        <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
