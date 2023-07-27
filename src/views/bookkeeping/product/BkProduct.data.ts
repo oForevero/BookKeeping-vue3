@@ -6,7 +6,7 @@ import {TreeItem} from "/@/components/Tree";
 //列表数据
 export const columns: BasicColumn[] = [
    {
-    title: '关系id',
+    title: 'id',
     align:"center",
     dataIndex: 'relationId'
    },
@@ -35,7 +35,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'remark'
    },
-   {
+   /*{
     title: '供货商id，0对应无厂商，临时购买，其他对应厂家',
     align:"center",
     dataIndex: 'collaboratorId'
@@ -44,7 +44,7 @@ export const columns: BasicColumn[] = [
     title: '品牌id',
     align:"center",
     dataIndex: 'brandId'
-   },
+   },*/
 ];
 export const treeData: TreeItem[] = [
   {

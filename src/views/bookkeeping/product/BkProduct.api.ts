@@ -5,6 +5,7 @@ const { createConfirm } = useMessage();
 
 enum Api {
   list = '/bookkeeping/bkProduct/list',
+  listRelation = "/bookkeeping/bkProductRelation/list",
   save='/bookkeeping/bkProduct/add',
   edit='/bookkeeping/bkProduct/edit',
   deleteOne = '/bookkeeping/bkProduct/delete',
@@ -27,6 +28,17 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) =>
   defHttp.get({url: Api.list, params});
+
+/**
+ * 获取左侧menu
+ * @param params
+ */
+export const relationList = () =>
+  defHttp.get({url: Api.listRelation}).then((res) =>{
+    console.log(res);
+    return res;
+  })
+
 
 /**
  * 删除单个
