@@ -37,21 +37,6 @@
     });
     //设置标题
     const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
-    //表单提交事件
-    async function handleSubmit(v) {
-        try {
-            let values = await validate();
-            setModalProps({confirmLoading: true});
-            //提交表单
-            await saveOrUpdate(values, isUpdate.value);
-            //关闭弹窗
-            closeModal();
-            //刷新列表
-            emit('success');
-        } finally {
-            setModalProps({confirmLoading: false});
-        }
-    }
 </script>
 
 <style lang="less" scoped>

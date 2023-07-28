@@ -47,8 +47,8 @@
         <!-- 表单区域 -->
         <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
 <!--        预留详情区域-->
-<!--        <BkProductDetail ref="detail"></BkProductDetail>-->
       </a-col>
+<!--      <BkProductDetail :title="详情信息"></BkProductDetail>-->
     </a-row>
   </div>
 </template>
