@@ -5,13 +5,14 @@ import { render } from '/@/utils/common/renderUtils';
 import {TreeItem} from "/@/components/Tree";
 import {relationList} from "/@/views/bookkeeping/product/BkProduct.api";
 //列表数据
+// @ts-ignore
 export const columns: BasicColumn[] = [
-   {
+   /*{
      title: 'id',
      align:"center",
-     dataIndex: 'relationId',
+     dataIndex: 'id',
      width: 60
-   },
+   },*/
    {
     title: '名称',
     align:"center",
@@ -23,10 +24,17 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'price'
    },
+    {
+      title: '平均进价',
+      align: "center",
+      dataIndex: 'avgPurchasePrice',
+      defaultHidden: true
+    },
    {
-    title: '计量单位',
-    align:"center",
-    dataIndex: 'module'
+    title: '最新进价',
+    align: "center",
+    dataIndex: 'latestPurchasePrice',
+     defaultHidden: true
    },
    {
     title: '库存数量',
@@ -34,19 +42,24 @@ export const columns: BasicColumn[] = [
     dataIndex: 'amount'
    },
    {
-    title: '商品备注',
+    title: '单位',
+    align:"center",
+    dataIndex: 'module'
+   },
+   {
+    title: '备注',
     align:"center",
     dataIndex: 'remark'
    },
    {
-    title: '供货商id，0对应无厂商，临时购买，其他对应厂家',
+    title: '供货商',
     align:"center",
-    dataIndex: 'collaboratorId'
+    dataIndex: 'collaboratorName'
    },
    {
-    title: '品牌id',
+    title: '品牌',
     align:"center",
-    dataIndex: 'brandId'
+    dataIndex: 'brandName'
    },
 ];
 export const treeData: TreeItem[] = await relationList();
@@ -55,16 +68,6 @@ export const searchFormSchema: FormSchema[] = [
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
-  {
-    label: '关系id',
-    field: 'relationId',
-    component: 'InputNumber',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入关系id!'},
-          ];
-     },
-  },
   {
     label: '商品名',
     field: 'name',
@@ -86,19 +89,19 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '计量单位',
-    field: 'module',
-    component: 'Input',
-  },
-  {
     label: '商品数量',
     field: 'amount',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入商品数量!'},
-          ];
-     },
+      return [
+        { required: true, message: '请输入商品数量!'},
+      ];
+    },
+  },
+  {
+    label: '商品单位',
+    field: 'module',
+    component: 'Select',
   },
   {
     label: '商品备注',
@@ -106,9 +109,9 @@ export const formSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
   {
-    label: '供货商id，0对应无厂商，临时购买，其他对应厂家',
+    label: '供货商',
     field: 'collaboratorId',
-    component: 'InputNumber',
+    component: 'Select',
     dynamicRules: ({model,schema}) => {
           return [
                  { required: true, message: '请输入供货商id，0对应无厂商，临时购买，其他对应厂家!'},
@@ -116,9 +119,9 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '品牌id',
+    label: '品牌',
     field: 'brandId',
-    component: 'InputNumber',
+    component: 'Select',
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{

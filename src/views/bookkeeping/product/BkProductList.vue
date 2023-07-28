@@ -46,6 +46,8 @@
         </BasicTable>
         <!-- 表单区域 -->
         <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
+<!--        预留详情区域-->
+<!--        <BkProductDetail ref="detail"></BkProductDetail>-->
       </a-col>
     </a-row>
   </div>
@@ -61,6 +63,7 @@
   import {list, relationList, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
+  import BkProductDetail from "/@/views/bookkeeping/product/components/BkProductDetail.vue";
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, {openModal}] = useModal();
@@ -71,6 +74,7 @@
            api: list,
            columns,
            canResize:false,
+           showIndexColumn:true,
            formConfig: {
               //labelWidth: 120,
               schemas: searchFormSchema,
