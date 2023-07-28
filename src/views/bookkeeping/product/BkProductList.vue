@@ -2,9 +2,8 @@
   <div>
     <a-row>
       <a-col :span="5">
-        <BasicTree title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList"
-                   v-model:expandedKeys="expandedKeys"
-                   v-model:selectedKeys="selectedKeys"/>
+        <BasicTree title="商品类型" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList"
+                   defaultExpandAll="true"/>
       </a-col>
       <a-col :span="19">
         <!--引用表格-->

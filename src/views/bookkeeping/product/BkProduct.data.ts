@@ -13,13 +13,13 @@ export const columns: BasicColumn[] = [
      width: 60
    },
    {
-    title: '商品名',
+    title: '名称',
     align:"center",
     dataIndex: 'name',
      width: 200
    },
    {
-    title: '商品单价',
+    title: '建议零售价',
     align:"center",
     dataIndex: 'price'
    },
@@ -29,7 +29,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'module'
    },
    {
-    title: '商品数量',
+    title: '库存数量',
     align:"center",
     dataIndex: 'amount'
    },
@@ -38,7 +38,7 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'remark'
    },
-   /*{
+   {
     title: '供货商id，0对应无厂商，临时购买，其他对应厂家',
     align:"center",
     dataIndex: 'collaboratorId'
@@ -47,7 +47,7 @@ export const columns: BasicColumn[] = [
     title: '品牌id',
     align:"center",
     dataIndex: 'brandId'
-   },*/
+   },
 ];
 export const treeData: TreeItem[] = await relationList();
 //查询数据
