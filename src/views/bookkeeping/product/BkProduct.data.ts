@@ -3,17 +3,20 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {TreeItem} from "/@/components/Tree";
+import {relationList} from "/@/views/bookkeeping/product/BkProduct.api";
 //列表数据
 export const columns: BasicColumn[] = [
    {
-    title: 'id',
-    align:"center",
-    dataIndex: 'relationId'
+     title: 'id',
+     align:"center",
+     dataIndex: 'relationId',
+     width: 60
    },
    {
     title: '商品名',
     align:"center",
-    dataIndex: 'name'
+    dataIndex: 'name',
+     width: 200
    },
    {
     title: '商品单价',
@@ -46,39 +49,7 @@ export const columns: BasicColumn[] = [
     dataIndex: 'brandId'
    },*/
 ];
-export const treeData: TreeItem[] = [
-  {
-    title: 'parent ',
-    key: '0-0',
-    children: [
-      { title: 'leaf', key: '0-0-0' },
-      {
-        title: 'leaf',
-        key: '0-0-1',
-        children: [
-          { title: 'leaf', key: '0-0-0-0', children: [{ title: 'leaf', key: '0-0-0-0-1' }] },
-          { title: 'leaf', key: '0-0-0-1' },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'parent 2',
-    key: '1-1',
-    children: [
-      { title: 'leaf', key: '1-1-0' },
-      { title: 'leaf', key: '1-1-1' },
-    ],
-  },
-  {
-    title: 'parent 3',
-    key: '2-2',
-    children: [
-      { title: 'leaf', key: '2-2-0' },
-      { title: 'leaf', key: '2-2-1' },
-    ],
-  },
-]
+export const treeData: TreeItem[] = await relationList();
 //查询数据
 export const searchFormSchema: FormSchema[] = [
 ];

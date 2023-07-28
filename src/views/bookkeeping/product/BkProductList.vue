@@ -2,7 +2,9 @@
   <div>
     <a-row>
       <a-col :span="5">
-        <BasicTree title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList" />
+        <BasicTree title="商品管理使用" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList"
+                   v-model:expandedKeys="expandedKeys"
+                   v-model:selectedKeys="selectedKeys"/>
       </a-col>
       <a-col :span="19">
         <!--引用表格-->
@@ -95,11 +97,6 @@
           },
   })
   const [registerTable, {reload},{ rowSelection, selectedRowKeys }] = tableContext
-
-  function listRelationTree(){
-    var promise = relationList();
-
-  }
 
    /**
     * 新增事件
