@@ -47,7 +47,6 @@
         <!-- 表单区域 -->
         <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
       </a-col>
-<!--      <BkProductDetail :title="详情信息"></BkProductDetail>-->
     </a-row>
   </div>
 </template>
@@ -62,7 +61,6 @@
   import {list, relationList, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
-  import BkProductDetail from "/@/views/bookkeeping/product/components/BkProductDetail.vue";
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, {openModal}] = useModal();
