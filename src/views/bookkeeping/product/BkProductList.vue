@@ -46,7 +46,6 @@
         </BasicTable>
         <!-- 表单区域 -->
         <BkProductModal @register="registerModal" @success="handleSuccess"></BkProductModal>
-<!--        预留详情区域-->
       </a-col>
 <!--      <BkProductDetail :title="详情信息"></BkProductDetail>-->
     </a-row>
@@ -108,6 +107,7 @@
      openModal(true, {
        isUpdate: false,
        showFooter: true,
+       isDetail: false,
      });
   }
    /**
@@ -118,6 +118,7 @@
        record,
        isUpdate: true,
        showFooter: true,
+       isDetail: false,
      });
    }
    /**
@@ -128,6 +129,7 @@
        record,
        isUpdate: true,
        showFooter: false,
+       isDetail: true,
      });
    }
    /**
