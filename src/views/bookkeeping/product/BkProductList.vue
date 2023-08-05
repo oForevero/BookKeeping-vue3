@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <a-row>
-      <a-col :span="5">
+  <div style="height:100%">
+    <a-row style="height:100%">
+      <a-col :span="4" style="height:100%">
         <BasicTree title="商品类型" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList"
                    defaultExpandAll="true"/>
       </a-col>
-      <a-col :span="19">
+      <a-col :span="20" style="height:100%">
         <!--引用表格-->
         <BasicTable @register="registerTable" :rowSelection="rowSelection">
           <!--插槽:table标题-->

@@ -36,7 +36,7 @@ export const list = (params) =>
 export const relationListTree = () =>
   defHttp.get({url: Api.listRelationTree}).then((res) =>{
     return res;
-  })
+  });
 
 /**
  * 请求list参数，传递pageIndex作为分页

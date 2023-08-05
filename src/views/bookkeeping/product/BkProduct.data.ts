@@ -17,7 +17,7 @@ export const columns: BasicColumn[] = [
     title: '名称',
     align:"center",
     dataIndex: 'name',
-     width: 200
+    width: 200,
    },
    {
     title: '建议零售价',
@@ -74,6 +74,21 @@ export const listData: TreeItem[] = await relationList(0)
 
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    label: '商品名',
+    field: 'name',
+    component: 'Input',
+  },
+  {
+    label: '供货商',
+    field: 'collaboratorId',
+    component: 'Select',
+  },
+  {
+    label: '品牌',
+    field: 'brandId',
+    component: 'Select',
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
@@ -116,21 +131,6 @@ export const formSchema: FormSchema[] = [
     label: '商品备注',
     field: 'remark',
     component: 'InputTextArea',
-  },
-  {
-    label: '供货商',
-    field: 'collaboratorId',
-    component: 'Select',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入供货商id，0对应无厂商，临时购买，其他对应厂家!'},
-          ];
-     },
-  },
-  {
-    label: '品牌',
-    field: 'brandId',
-    component: 'Select',
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{
