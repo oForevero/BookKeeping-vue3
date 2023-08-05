@@ -5,7 +5,8 @@ const { createConfirm } = useMessage();
 
 enum Api {
   list = '/bookkeeping/bkProduct/list',
-  listRelation = "/bookkeeping/bkProductRelation/listTree",
+  listRelationTree = "/bookkeeping/bkProductRelation/listTree",
+  listRelation = "/bookkeeping/bkProductRelation/list",
   save='/bookkeeping/bkProduct/add',
   edit='/bookkeeping/bkProduct/edit',
   deleteOne = '/bookkeeping/bkProduct/delete',
@@ -31,13 +32,21 @@ export const list = (params) =>
 
 /**
  * 获取左侧menu
- * @param params
  */
-export const relationList = () =>
-  defHttp.get({url: Api.listRelation}).then((res) =>{
+export const relationListTree = () =>
+  defHttp.get({url: Api.listRelationTree}).then((res) =>{
     return res;
   })
 
+/**
+ * 请求list参数，传递pageIndex作为分页
+ * @param pageIndex 分页地址
+ */
+export const relationList  =  (pageIndex) => {
+  defHttp.get({url: Api.listRelation}, {joinParamsToUrl: pageIndex}).then((res) =>{
+    return res;
+  });
+}
 
 /**
  * 删除单个

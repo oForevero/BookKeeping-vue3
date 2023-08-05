@@ -1,10 +1,10 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" defaultFullscreen="true" @ok="handleSubmit"
+  <BasicModal :width="width" v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" useWrapper="true" @ok="handleSubmit"
               :showOkBtn="isUpdate" :showCancelBtn="isUpdate">
-    <BasicForm v-show="isUpdate" @register="registerForm"/>
-    <a-descriptions v-show="!isUpdate" :title="detailData.relationName+'-'+detailData.name+' 详情信息'" bordered>
-      <a-descriptions-item label="类型">{{detailData.relationName}}</a-descriptions-item>
-      <a-descriptions-item label="商品名">{{detailData.name}}</a-descriptions-item>
+    <BasicForm v-show="!isDetail" @register="registerForm"/>
+    <a-descriptions v-show="isDetail" bordered>
+      <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
+<!--      <a-descriptions-item label="商品名">{{detailData.name}}</a-descriptions-item>-->
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
       <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
       <a-descriptions-item label="单价">{{detailData.price}}￥</a-descriptions-item>
@@ -48,6 +48,8 @@ import {ref, computed, unref} from 'vue';
     // Emits声明
     const emit = defineEmits(['register','success']);
     const isUpdate = ref(true);
+    const isDetail = ref(false);
+    const width = ref(600);
     //表单配置
     const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
         //labelWidth: 150,
@@ -80,6 +82,8 @@ import {ref, computed, unref} from 'vue';
     const [registerModal, {setModalProps, closeModal}] = useModalInner(async (data) => {
       console.log("update value",isUpdate.value);
       if(!data.isDetail){
+        width.value = 600;
+        isDetail.value = false;
         //重置表单
         await resetFields();
         setModalProps({confirmLoading: false,showCancelBtn:!!data?.showFooter,showOkBtn:!!data?.showFooter});
@@ -93,7 +97,9 @@ import {ref, computed, unref} from 'vue';
         // 隐藏底部时禁用整个表单
         await setProps({disabled: !data?.showFooter})
       }else {
+        width.value = 1100;
         isUpdate.value = false;
+        isDetail.value = true;
         detailData.value = data.record;
         console.log("detail：",detailData.value);
       }

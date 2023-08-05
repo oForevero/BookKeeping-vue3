@@ -3,7 +3,7 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {TreeItem} from "/@/components/Tree";
-import {relationList} from "/@/views/bookkeeping/product/BkProduct.api";
+import {relationList, relationListTree} from "/@/views/bookkeeping/product/BkProduct.api";
 //列表数据
 // @ts-ignore
 export const columns: BasicColumn[] = [
@@ -49,7 +49,8 @@ export const columns: BasicColumn[] = [
    {
     title: '备注',
     align:"center",
-    dataIndex: 'remark'
+    dataIndex: 'remark',
+     defaultHidden: true
    },
    {
     title: '供货商',
@@ -61,8 +62,16 @@ export const columns: BasicColumn[] = [
     align:"center",
     dataIndex: 'brandName'
    },
+  {
+    title: '存储位置',
+    align: "center",
+    dataIndex: 'location_dictText'
+  }
 ];
-export const treeData: TreeItem[] = await relationList();
+
+export const treeData: TreeItem[] = await relationListTree();
+export const listData: TreeItem[] = await relationList(0)
+
 //查询数据
 export const searchFormSchema: FormSchema[] = [
 ];
@@ -131,8 +140,6 @@ export const formSchema: FormSchema[] = [
 	  show: false
 	},
 ];
-
-
 
 /**
 * 流程表单调用这个方法获取formSchema
