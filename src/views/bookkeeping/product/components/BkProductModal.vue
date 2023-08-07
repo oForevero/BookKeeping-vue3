@@ -1,7 +1,13 @@
 <template>
   <BasicModal :width="width" v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" useWrapper="true" @ok="handleSubmit"
               :showOkBtn="isUpdate" :showCancelBtn="isUpdate">
-    <BasicForm v-show="!isDetail" @register="registerForm"/>
+<!--    <BasicForm v-show="!isDetail" @register="registerForm"/>-->
+    <a-form :model="productModel">
+      
+    </a-form>
+    <div v-show="!isDetail">
+      <
+    </div>
     <a-descriptions v-show="isDetail" bordered>
       <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
 <!--      <a-descriptions-item label="商品名">{{detailData.name}}</a-descriptions-item>-->
@@ -47,9 +53,13 @@ import {ref, computed, unref} from 'vue';
     import {saveOrUpdate} from '../BkProduct.api';
     // Emits声明
     const emit = defineEmits(['register','success']);
+    //是否为更新操作
     const isUpdate = ref(true);
+    //是否为详情操作
     const isDetail = ref(false);
     const width = ref(600);
+    //商品类型
+    const productModel = ref({});
     //表单配置
     const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
         //labelWidth: 150,

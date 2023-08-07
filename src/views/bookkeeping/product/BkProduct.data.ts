@@ -3,7 +3,7 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {TreeItem} from "/@/components/Tree";
-import {relationList, relationListTree} from "/@/views/bookkeeping/product/BkProduct.api";
+import {relationListTree} from "/@/views/bookkeeping/product/BkProduct.api";
 //列表数据
 // @ts-ignore
 export const columns: BasicColumn[] = [
@@ -70,7 +70,6 @@ export const columns: BasicColumn[] = [
 ];
 
 export const treeData: TreeItem[] = await relationListTree();
-export const listData: TreeItem[] = await relationList(0)
 
 //查询数据
 export const searchFormSchema: FormSchema[] = [
@@ -90,56 +89,23 @@ export const searchFormSchema: FormSchema[] = [
     component: 'Select',
   },
 ];
-//表单数据
-export const formSchema: FormSchema[] = [
-  {
-    label: '商品名',
-    field: 'name',
-    component: 'Input',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入商品名!'},
-          ];
-     },
-  },
-  {
-    label: '商品单价',
-    field: 'price',
-    component: 'InputNumber',
-    dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入商品单价!'},
-          ];
-     },
-  },
-  {
-    label: '商品数量',
-    field: 'amount',
-    component: 'InputNumber',
-    dynamicRules: ({model,schema}) => {
-      return [
-        { required: true, message: '请输入商品数量!'},
-      ];
-    },
-  },
-  {
-    label: '商品单位',
-    field: 'module',
-    component: 'Select',
-  },
-  {
-    label: '商品备注',
-    field: 'remark',
-    component: 'InputTextArea',
-  },
-	// TODO 主键隐藏字段，目前写死为ID
-	{
-	  label: '',
-	  field: 'id',
-	  component: 'Input',
-	  show: false
-	},
-];
+//表单接口
+interface ProductModel{
+  //商品名
+  name: string;
+  //单价
+  price: number;
+  //数量
+  amount: number;
+  //计量单位
+  module: string;
+  //商品备注
+  remark: string;
+  //供货商id
+  collaboratorId: number;
+  //品牌
+  brandId: number;
+}
 
 /**
 * 流程表单调用这个方法获取formSchema
