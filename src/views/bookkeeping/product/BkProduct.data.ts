@@ -90,7 +90,7 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 //表单接口
-interface ProductModel{
+export interface ProductModel{
   //商品名
   name: string;
   //单价
@@ -105,6 +105,8 @@ interface ProductModel{
   collaboratorId: number;
   //品牌
   brandId: number;
+  //商品缩略图
+  productImg: [];
 }
 
 /**

@@ -2,15 +2,76 @@
   <BasicModal :width="width" v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" useWrapper="true" @ok="handleSubmit"
               :showOkBtn="isUpdate" :showCancelBtn="isUpdate">
 <!--    <BasicForm v-show="!isDetail" @register="registerForm"/>-->
-    <a-form :model="productModel">
-      
-    </a-form>
     <div v-show="!isDetail">
-      <
+      <a-form :model="product">
+        <a-form-item
+          label="商品名称"
+          name="module"
+          :rules="[{ required: true, message: '请输入商品名称！' }]"
+        >
+          <a-input v-model:value="product.name" prefix="💻" placeholder="请输入商品名称"/>
+        </a-form-item>
+        <a-form-item
+          label="计量单位"
+          name="name"
+          :rules="[{ required: true, message: '请输入计量单位！' }]"
+        >
+          <a-input v-model:value="product.module" suffix="🛒" placeholder="请输入计量单位"/>
+        </a-form-item>
+        <a-form-item
+          label="商品图片"
+          name="productImg"
+        >
+          <a-space direction="vertical" style="width: 100%" size="large">
+            <a-upload
+              v-model:file-list="product.productImg"
+              list-type="picture"
+              :max-count="1"
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            >
+              <a-button>
+                <upload-outlined></upload-outlined>
+                点击上传商品缩略图
+              </a-button>
+            </a-upload>
+          </a-space>
+        </a-form-item>
+        <a-form-item
+          label="单价"
+          name="price"
+          :rules="[{ required: true, message: '请输入单价数据！' }]"
+        >
+          <a-input-number
+            v-model:value="product.price"
+            style="width: 200px"
+            :min="0"
+            :max="99999999"
+            :step="0.01"
+            string-mode
+            suffix="￥"
+            placeholder="请输入单个计量单位的价钱"
+          />
+        </a-form-item>
+        <a-form-item
+          label="品牌"
+          name="brandName"
+        >
+          <a-select
+            v-model:value="product.collaboratorId"
+            show-search
+            placeholder="请选择品牌"
+            style="width: 200px"
+            :options="options"
+            :filter-option="filterOption"
+            @focus="handleFocus"
+            @blur="handleBlur"
+            @change="handleChange"
+          ></a-select>
+        </a-form-item>
+      </a-form>
     </div>
     <a-descriptions v-show="isDetail" bordered>
       <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
-<!--      <a-descriptions-item label="商品名">{{detailData.name}}</a-descriptions-item>-->
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
       <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
       <a-descriptions-item label="单价">{{detailData.price}}￥</a-descriptions-item>
@@ -46,10 +107,10 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, computed, unref} from 'vue';
-    import {BasicModal, useModalInner} from '/@/components/Modal';
-    import {BasicForm, useForm} from '/@/components/Form/index';
-    import {formSchema} from '../BkProduct.data';
+import {ref, computed, unref, reactive} from 'vue';
+import {BasicModal, useModalInner} from '/@/components/Modal';
+import {BasicForm, useForm} from '/@/components/Form/index';
+import {ProductModel} from '../BkProduct.data';
     import {saveOrUpdate} from '../BkProduct.api';
     // Emits声明
     const emit = defineEmits(['register','success']);
@@ -59,11 +120,20 @@ import {ref, computed, unref} from 'vue';
     const isDetail = ref(false);
     const width = ref(600);
     //商品类型
-    const productModel = ref({});
+    const product = reactive<ProductModel> ({
+      amount: 0,
+      brandId: 0,
+      collaboratorId: 0,
+      module: "",
+      name: "",
+      price: 0,
+      remark: "",
+      productImg: [],
+    });
     //表单配置
     const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
         //labelWidth: 150,
-        schemas: formSchema,
+        schemas: undefined,
         showActionButtonGroup: false,
         baseColProps: {span: 24}
     });
@@ -127,4 +197,8 @@ import {ref, computed, unref} from 'vue';
 	:deep(.ant-calendar-picker){
 		width: 100%
 	}
+
+  :deep(.ant-form-item-label){
+    width: 100px;
+  }
 </style>
