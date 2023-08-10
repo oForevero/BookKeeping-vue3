@@ -13,6 +13,7 @@
     import {defHttp} from '/@/utils/http/axios';
     import { propTypes } from '/@/utils/propTypes';
     import {saveOrUpdate} from '../BkProduct.api';
+    import { getBpmFormSchema } from '../../collaborator/BkCollaborator.data';
 
     export default defineComponent({
         name: "BkProductForm",
