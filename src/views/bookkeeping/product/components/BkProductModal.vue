@@ -54,18 +54,34 @@
         </a-form-item>
         <a-form-item
           label="品牌"
-          name="brandName"
+          name="brandId"
+        >
+          <a-select
+            v-model:value="product.brandId"
+            show-search
+            placeholder="请选择品牌"
+            style="width: 200px"
+            v-model="product.brandId"
+            :options="brandData"
+            :filter-option="filterOption"
+            :fieldNames="{ label: 'name', value: 'id', options: brandData }"
+            :autoClearSearchValue="true"
+          ></a-select>
+        </a-form-item>
+        <a-form-item
+          label="厂家"
+          name="collaboratorId"
         >
           <a-select
             v-model:value="product.collaboratorId"
             show-search
-            placeholder="请选择品牌"
+            placeholder="请选择供货商"
             style="width: 200px"
-            :options="options"
+            v-model="product.collaboratorId"
+            :options="collaboratorData"
             :filter-option="filterOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
+            :fieldNames="{ label: 'name', value: 'id', options: brandData }"
+            :autoClearSearchValue="true"
           ></a-select>
         </a-form-item>
       </a-form>
@@ -110,8 +126,9 @@
 import {ref, computed, unref, reactive} from 'vue';
 import {BasicModal, useModalInner} from '/@/components/Modal';
 import {BasicForm, useForm} from '/@/components/Form/index';
-import {ProductModel} from '../BkProduct.data';
+import {brandData, collaboratorData, ProductModel} from '../BkProduct.data';
     import {saveOrUpdate} from '../BkProduct.api';
+import options from "@zxcvbn-ts/core/src/Options";
     // Emits声明
     const emit = defineEmits(['register','success']);
     //是否为更新操作
@@ -130,6 +147,14 @@ import {ProductModel} from '../BkProduct.data';
       remark: "",
       productImg: [],
     });
+    /**
+     * 验证方法
+     * @param input
+     * @param option
+     */
+    const filterOption = (input: string, option: any) =>{
+      return option.name.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+    }
     //表单配置
     const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
         //labelWidth: 150,
@@ -184,6 +209,23 @@ import {ProductModel} from '../BkProduct.data';
         console.log("detail：",detailData.value);
       }
     });
+
+  //表单提交事件
+  async function handleSubmit(v) {
+    try {
+      let values = await validate();
+      setModalProps({confirmLoading: true});
+      //提交表单
+      await saveOrUpdate(values, isUpdate.value);
+      //关闭弹窗
+      closeModal();
+      //刷新列表
+      emit('success');
+    } finally {
+      setModalProps({confirmLoading: false});
+    }
+  }
+
     //设置标题
     const title = computed(() => (!unref(isUpdate) ? '详情' : '新增'));
 </script>

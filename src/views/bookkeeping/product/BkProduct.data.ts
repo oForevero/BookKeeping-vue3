@@ -3,7 +3,12 @@ import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {TreeItem} from "/@/components/Tree";
-import {relationListTree} from "/@/views/bookkeeping/product/BkProduct.api";
+import {
+  listBrand,
+  listCollaborator,
+  relationListTree
+} from "/@/views/bookkeeping/product/BkProduct.api";
+import {SelectProps} from "ant-design-vue";
 //列表数据
 // @ts-ignore
 export const columns: BasicColumn[] = [
@@ -70,6 +75,9 @@ export const columns: BasicColumn[] = [
 ];
 
 export const treeData: TreeItem[] = await relationListTree();
+export const brandData = await listBrand(1);
+
+export const collaboratorData = await listCollaborator(1);
 
 //查询数据
 export const searchFormSchema: FormSchema[] = [
@@ -87,6 +95,10 @@ export const searchFormSchema: FormSchema[] = [
     label: '品牌',
     field: 'brandId',
     component: 'Select',
+    componentProps: {
+      options: brandData,
+      fieldNames: {label: 'name', value: 'id', options: brandData}
+    }
   },
 ];
 //表单接口

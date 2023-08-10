@@ -1,11 +1,14 @@
 import {defHttp} from '/@/utils/http/axios';
 import { useMessage } from "/@/hooks/web/useMessage";
+import {toRaw} from "vue";
 
 const { createConfirm } = useMessage();
 
 enum Api {
   list = '/bookkeeping/bkProduct/list',
   listRelationTree = "/bookkeeping/bkProductRelation/listTree",
+  listBrand = "/bookkeeping/bkBrand/list",
+  listCollaborator = "/bookkeeping/bkCollaborator/list",
   save='/bookkeeping/bkProduct/add',
   edit='/bookkeeping/bkProduct/edit',
   deleteOne = '/bookkeeping/bkProduct/delete',
@@ -35,6 +38,16 @@ export const list = (params) =>
 export const relationListTree = () =>
   defHttp.get({url: Api.listRelationTree}).then((res) =>{
     return res;
+  });
+
+export const listBrand = (pageNo) =>
+  defHttp.get({url: Api.listBrand, params: pageNo}).then((res) => {
+    return res.records;
+  });
+
+export const listCollaborator = (pageNo) =>
+  defHttp.get({url: Api.listCollaborator, params: pageNo}).then((res)=>{
+    return res.records;
   });
 
 /**

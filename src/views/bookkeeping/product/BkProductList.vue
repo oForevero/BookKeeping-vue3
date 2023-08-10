@@ -58,7 +58,13 @@
   import { useListPage } from '/@/hooks/system/useListPage'
   import BkProductModal from './components/BkProductModal.vue'
   import {columns, searchFormSchema, treeData} from './BkProduct.data';
-  import {list, relationList, relationListTree, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkProduct.api';
+  import {
+    list,
+    deleteOne,
+    batchDelete,
+    getImportUrl,
+    getExportUrl,
+  } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
   const checkedKeys = ref<Array<string | number>>([]);
