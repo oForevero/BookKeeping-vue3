@@ -62,6 +62,7 @@
            api: list,
            columns,
            canResize:false,
+           showIndexColumn: true,
            formConfig: {
               //labelWidth: 120,
               schemas: searchFormSchema,
@@ -76,6 +77,10 @@
                width: 120,
                fixed:'right'
             },
+        defSort: {
+          column: 'key',
+          order: 'asc',
+        },
       },
        exportConfig: {
             name:"供货商/客户",

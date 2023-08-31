@@ -5,32 +5,32 @@ import { render } from '/@/utils/common/renderUtils';
 //列表数据
 export const columns: BasicColumn[] = [
    {
-    title: '厂商/个体 公司名称',
+    title: '公司名称',
     align:"center",
-    dataIndex: 'companyName'
+    dataIndex: 'companyName',
    },
    {
-    title: '厂商/个体 公司固话/手机号码',
+    title: '联系方式',
     align:"center",
     dataIndex: 'companyTel'
    },
    {
-    title: '是否还在合作，0为正常，1为不合作',
+    title: '合作状态',
     align:"center",
     dataIndex: 'collaboratorStatus'
    },
-   {
+   /*{
     title: '厂商/个体 默认员工id，当商户规模为厂家（2）时来添加员工作为采购/供货人',
     align:"center",
     dataIndex: 'employeeId'
-   },
+   },*/
    {
-    title: '商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）',
+    title: '客户类型',
     align:"center",
     dataIndex: 'collaboratorType'
    },
    {
-    title: '默认匿名账户为0（有且只有一个）个体为 1  厂商为 2',
+    title: '客户类型',
     align:"center",
     dataIndex: 'collaboratorScale'
    },
