@@ -52,7 +52,6 @@
   import {columns, searchFormSchema} from './BkCollaborator.data';
   import {list, deleteOne, batchDelete, getImportUrl,getExportUrl} from './BkCollaborator.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import {Avatar, Tag} from "ant-design-vue";
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
   const [registerModal, {openModal}] = useModal();
@@ -63,6 +62,7 @@
            api: list,
            columns,
            canResize:false,
+           showIndexColumn:true,
            formConfig: {
               //labelWidth: 120,
               schemas: searchFormSchema,

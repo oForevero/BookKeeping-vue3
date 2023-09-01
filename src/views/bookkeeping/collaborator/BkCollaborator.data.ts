@@ -2,6 +2,8 @@ import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
 import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
+import {h} from "vue";
+import {Tag} from "ant-design-vue";
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -17,7 +19,13 @@ export const columns: BasicColumn[] = [
    {
     title: '合作状态',
     align:"center",
-    dataIndex: 'collaboratorStatus_dictText'
+    dataIndex: 'collaboratorStatus_dictText',
+    customRender: ({ record }) => {
+       // @ts-ignore
+       const collaboratorStatus_dictText = record.collaboratorStatus_dictText;
+       const color = collaboratorStatus_dictText === '合作中' ? 'green' : 'red';
+       return h(Tag, { color: color }, () => collaboratorStatus_dictText);
+    },
    },
    {
     title: '默认员工',
@@ -28,7 +36,25 @@ export const columns: BasicColumn[] = [
     title: '客户类型',
     align:"center",
     dataIndex: 'collaboratorType_dictText',
-    slots: { customRender: 'collaboratorType_dictText' },
+     customRender: ({ record }) => {
+       // @ts-ignore
+       const collaboratorType_dictText = record.collaboratorType_dictText;
+       let color = 'green';
+       switch (collaboratorType_dictText){
+         case '客户':
+           color = 'blue';
+           break;
+         case '供货商':
+           color = 'orange'
+           break;
+         case '合作同行':
+           color = 'green'
+           break;
+         default:
+           break;
+       }
+       return h(Tag, { color: color }, () => collaboratorType_dictText);
+     },
    },
    /*{
     title: '默认匿名账户为0（有且只有一个）个体为 1  厂商为 2',

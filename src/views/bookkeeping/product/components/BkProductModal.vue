@@ -91,7 +91,8 @@
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
       <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
       <a-descriptions-item label="单价">{{detailData.price}}￥</a-descriptions-item>
-      <a-descriptions-item label="品牌">{{detailData.brandName}}</a-descriptions-item>
+      <a-descriptions-item label="品牌">
+        {{detailData.brandName}}</a-descriptions-item>
       <a-descriptions-item label="厂家" :span="2">{{detailData.collaboratorName}}</a-descriptions-item>
       <a-descriptions-item label="状态">
         <a-badge status="processing" v-show="detailData.status === '0'" :text="detailData.status_dictText" />

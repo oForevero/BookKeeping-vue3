@@ -8,7 +8,8 @@ import {
   listCollaborator,
   relationListTree
 } from "/@/views/bookkeeping/product/BkProduct.api";
-import {SelectProps} from "ant-design-vue";
+import {SelectProps, Tag} from "ant-design-vue";
+import {h} from "vue";
 //列表数据
 // @ts-ignore
 export const columns: BasicColumn[] = [
@@ -60,12 +61,22 @@ export const columns: BasicColumn[] = [
    {
     title: '供货商',
     align:"center",
-    dataIndex: 'collaboratorName'
+    dataIndex: 'collaboratorName',
+    customRender: ({ record }) => {
+       // @ts-ignore
+       const collaboratorName = record.collaboratorName;
+       return h(Tag, { color: "orange" }, () => collaboratorName);
+    },
    },
    {
     title: '品牌',
     align:"center",
-    dataIndex: 'brandName'
+    dataIndex: 'brandName',
+    customRender: ({ record }) => {
+       // @ts-ignore
+       const collaboratorName = record.collaboratorName;
+       return h(Tag, { color: "blue" }, () => collaboratorName);
+    },
    },
   {
     title: '存储位置',
