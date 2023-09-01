@@ -74,8 +74,8 @@ export const columns: BasicColumn[] = [
     dataIndex: 'brandName',
     customRender: ({ record }) => {
        // @ts-ignore
-       const collaboratorName = record.collaboratorName;
-       return h(Tag, { color: "blue" }, () => collaboratorName);
+       const brandName = record.brandName;
+       return h(Tag, { color: "blue" }, () => brandName);
     },
    },
   {

@@ -4,6 +4,7 @@ import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {h} from "vue";
 import {Tag} from "ant-design-vue";
+import {brandData} from "/@/views/bookkeeping/product/BkProduct.data";
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -19,12 +20,13 @@ export const columns: BasicColumn[] = [
    {
     title: '合作状态',
     align:"center",
-    dataIndex: 'collaboratorStatus_dictText',
+    dataIndex: 'collaboratorStatus',
     customRender: ({ record }) => {
        // @ts-ignore
-       const collaboratorStatus_dictText = record.collaboratorStatus_dictText;
-       const color = collaboratorStatus_dictText === '合作中' ? 'green' : 'red';
-       return h(Tag, { color: color }, () => collaboratorStatus_dictText);
+       const collaboratorStatus = record.collaboratorStatus;
+       let status = ~~collaboratorStatus === 0
+       const color = status ? 'green' : 'red';
+       return h(Tag, { color: color }, () => status ? '合作中':'不合作');
     },
    },
    {
@@ -62,13 +64,48 @@ export const columns: BasicColumn[] = [
     dataIndex: 'collaboratorScale'
    },*/
 ];
+
+export const collaboratorStatus = [
+  {name: '合作中', value:0},
+  {name: '不合作', value:1}
+]
+
+export const collaboratorType = [
+  {name: '客户', value:0},
+  {name: '供货商', value:1},
+  {name: '合作同行', value:2}
+]
+
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    label: '客户名称',
+    field: 'companyName',
+    component: 'JInput',
+  },
+  {
+    label: '合作状态',
+    field: 'collaboratorStatus',
+    component: 'Select',
+    componentProps: {
+      options: collaboratorStatus,
+      fieldNames: {label: 'name', value: 'value', options: collaboratorStatus}
+    }
+  },
+  {
+    label: '客户类型',
+    field: 'collaboratorStatus',
+    component: 'Select',
+    componentProps: {
+      options: collaboratorType,
+      fieldNames: {label: 'name', value: 'value', options: collaboratorType}
+    }
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [
   {
-    label: '厂商/个体 公司名称',
+    label: '客户名称',
     field: 'companyName',
     component: 'Input',
     dynamicRules: ({model,schema}) => {
@@ -78,7 +115,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '厂商/个体 公司固话/手机号码',
+    label: '联系方式',
     field: 'companyTel',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
@@ -88,7 +125,7 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '是否还在合作，0为正常，1为不合作',
+    label: '合作状态',
     field: 'collaboratorStatus',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
@@ -130,8 +167,6 @@ export const formSchema: FormSchema[] = [
 	  show: false
 	},
 ];
-
-
 
 /**
 * 流程表单调用这个方法获取formSchema
