@@ -95,7 +95,7 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '商品名',
     field: 'name',
-    component: 'Input',
+    component: 'JInput',
   },
   {
     label: '供货商',
