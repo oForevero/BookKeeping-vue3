@@ -1,70 +1,174 @@
 <template>
-    <div style="min-height: 400px">
-        <BasicForm @register="registerForm"></BasicForm>
-        <div style="width: 100%;text-align: center" v-if="!formDisabled">
-            <a-button @click="submitForm" pre-icon="ant-design:check" type="primary">提 交</a-button>
-        </div>
-    </div>
+  <a-spin :spinning="confirmLoading">
+    <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
+      <a-row>
+        <a-col :span="24">
+          <a-form-item label="关系id" v-bind="validateInfos.relationId">
+	          <a-input-number v-model:value="formData.relationId" placeholder="请输入关系id" style="width: 100%" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="商品名" v-bind="validateInfos.name">
+            <a-input v-model:value="formData.name" placeholder="请输入商品名" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="商品单价" v-bind="validateInfos.price">
+	          <a-input-number v-model:value="formData.price" placeholder="请输入商品单价" style="width: 100%" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="计量单位" v-bind="validateInfos.module">
+            <a-input v-model:value="formData.module" placeholder="请输入计量单位" :disabled="disabled"></a-input>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="商品数量" v-bind="validateInfos.amount">
+	          <a-input-number v-model:value="formData.amount" placeholder="请输入商品数量" style="width: 100%" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="商品备注" v-bind="validateInfos.remark">
+	          <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品备注" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="供货商id，0对应无厂商，临时购买，其他对应厂家" v-bind="validateInfos.collaboratorId">
+	          <a-input-number v-model:value="formData.collaboratorId" placeholder="请输入供货商id，0对应无厂商，临时购买，其他对应厂家" style="width: 100%" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="品牌id" v-bind="validateInfos.brandId">
+	          <a-input-number v-model:value="formData.brandId" placeholder="请输入品牌id" style="width: 100%" :disabled="disabled"/>
+          </a-form-item>
+        </a-col>
+      </a-row>
+    </a-form>
+  </a-spin>
 </template>
 
-<script lang="ts">
-    import {BasicForm, useForm} from '/@/components/Form/index';
-    import {computed, defineComponent} from 'vue';
-    import {defHttp} from '/@/utils/http/axios';
-    import { propTypes } from '/@/utils/propTypes';
-    import {saveOrUpdate} from '../BkProduct.api';
-    import { getBpmFormSchema } from '../../collaborator/BkCollaborator.data';
+<script lang="ts" setup>
+  import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
+  import { defHttp } from '/@/utils/http/axios';
+  import { useMessage } from '/@/hooks/web/useMessage';
+  import { getValueType } from '/@/utils';
+  import { saveOrUpdate } from '../BkProduct.api';
+  import { Form } from 'ant-design-vue';
+  
+  const props = defineProps({
+    formDisabled: { type: Boolean, default: false },
+    formData: { type: Object, default: ()=>{} },
+    formBpm: { type: Boolean, default: true }
+  });
+  const formRef = ref();
+  const useForm = Form.useForm;
+  const emit = defineEmits(['register', 'ok']);
+  const formData = reactive<Record<string, any>>({
+    id: '',
+    relationId: undefined,
+    name: '',   
+    price: undefined,
+    module: '',   
+    amount: undefined,
+    remark: '',   
+    collaboratorId: undefined,
+    brandId: undefined,
+  });
+  const { createMessage } = useMessage();
+  const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
+  const wrapperCol = ref<any>({ xs: { span: 24 }, sm: { span: 16 } });
+  const confirmLoading = ref<boolean>(false);
+  //表单验证
+  const validatorRules = {
+    relationId: [{ required: true, message: '请输入关系id!'},],
+    name: [{ required: true, message: '请输入商品名!'},],
+    price: [{ required: true, message: '请输入商品单价!'},],
+    amount: [{ required: true, message: '请输入商品数量!'},],
+    collaboratorId: [{ required: true, message: '请输入供货商id，0对应无厂商，临时购买，其他对应厂家!'},],
+  };
+  const { resetFields, validate, validateInfos } = useForm(formData, validatorRules, { immediate: true });
 
-    export default defineComponent({
-        name: "BkProductForm",
-        components:{
-            BasicForm
-        },
-        props:{
-            formData: propTypes.object.def({}),
-            formBpm: propTypes.bool.def(true),
-        },
-        setup(props){
-            const [registerForm, { setFieldsValue, setProps, getFieldsValue }] = useForm({
-                labelWidth: 150,
-                schemas: getBpmFormSchema(props.formData),
-                showActionButtonGroup: false,
-                baseColProps: {span: 24}
-            });
+  // 表单禁用
+  const disabled = computed(()=>{
+    if(props.formBpm === true){
+      if(props.formData.disabled === false){
+        return false;
+      }else{
+        return true;
+      }
+    }
+    return props.formDisabled;
+  });
 
-            const formDisabled = computed(()=>{
-                if(props.formData.disabled === false){
-                    return false;
-                }
-                return true;
-            });
+  
+  /**
+   * 新增
+   */
+  function add() {
+    edit({});
+  }
 
-            let formData = {};
-            const queryByIdUrl = '/bookkeeping/bkProduct/queryById';
-            async function initFormData(){
-                let params = {id: props.formData.dataId};
-                const data = await defHttp.get({url: queryByIdUrl, params});
-                formData = {...data}
-                //设置表单的值
-                await setFieldsValue(formData);
-                //默认是禁用
-                await setProps({disabled: formDisabled.value})
-            }
-
-            async function submitForm() {
-                let data = getFieldsValue();
-                let params = Object.assign({}, formData, data);
-                console.log('表单数据', params)
-                await saveOrUpdate(params, true)
-            }
-
-            initFormData();
-
-            return {
-                registerForm,
-                formDisabled,
-                submitForm,
-            }
-        }
+  /**
+   * 编辑
+   */
+  function edit(record) {
+    nextTick(() => {
+      resetFields();
+      //赋值
+      Object.assign(formData, record);
     });
+  }
+
+  /**
+   * 提交数据
+   */
+  async function submitForm() {
+    // 触发表单验证
+    await validate();
+    confirmLoading.value = true;
+    const isUpdate = ref<boolean>(false);
+    //时间格式化
+    let model = formData;
+    if (model.id) {
+      isUpdate.value = true;
+    }
+    //循环数据
+    for (let data in model) {
+      //如果该数据是数组并且是字符串类型
+      if (model[data] instanceof Array) {
+        let valueType = getValueType(formRef.value.getProps, data);
+        //如果是字符串类型的需要变成以逗号分割的字符串
+        if (valueType === 'string') {
+          model[data] = model[data].join(',');
+        }
+      }
+    }
+    await saveOrUpdate(model, isUpdate.value)
+      .then((res) => {
+        if (res.success) {
+          createMessage.success(res.message);
+          emit('ok');
+        } else {
+          createMessage.warning(res.message);
+        }
+      })
+      .finally(() => {
+        confirmLoading.value = false;
+      });
+  }
+
+
+  defineExpose({
+    add,
+    edit,
+    submitForm,
+  });
 </script>
+
+<style lang="less" scoped>
+  .antd-modal-form {
+    min-height: 500px !important;
+    overflow-y: auto;
+    padding: 24px 24px 24px 24px;
+  }
+</style>

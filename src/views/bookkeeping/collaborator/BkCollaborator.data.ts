@@ -94,7 +94,7 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     label: '客户类型',
-    field: 'collaboratorStatus',
+    field: 'collaboratorType',
     component: 'Select',
     componentProps: {
       options: collaboratorType,
