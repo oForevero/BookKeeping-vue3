@@ -3,12 +3,14 @@
     <!--查询区域-->
     <div class="jeecg-basic-table-form-container">
       <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-row :gutter="24" />
+        <a-row :gutter="24">
+<!--          <a-input v-model:value="queryParam" placeholder="Basic usage" />-->
+        </a-row>
       </a-form>
     </div>
     <el-row>
       <el-col :span="5">
-        <
+        
       </el-col>
       <el-col :span="19">
         <!--引用表格-->
@@ -53,7 +55,8 @@
       </el-col>
     </el-row>
     <!-- 表单区域 -->
-    <BkProductModal ref="registerModal" @success="handleSuccess" />
+    <BkProductModal ref="detailModal" @success="handleSuccess" />
+    <BkProductForm ref="editForm" @success="handleSuccess" />
   </div>
 </template>
 
@@ -66,10 +69,12 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
+  import BkProductForm from './components/BkProductForm.vue';
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
-  const registerModal = ref();
+  const detailModal = ref();
+  const editForm = ref();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -110,24 +115,22 @@
    * 新增事件
    */
   function handleAdd() {
-    registerModal.value.disableSubmit = false;
-    registerModal.value.add();
+    editForm.value.add();
   }
 
   /**
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
-    registerModal.value.disableSubmit = false;
-    registerModal.value.edit(record);
+    editForm.value.edit(record);
   }
 
   /**
    * 详情
    */
   function handleDetail(record: Recordable) {
-    registerModal.value.disableSubmit = true;
-    registerModal.value.detail(record);
+    detailModal.value.disableSubmit = true;
+    detailModal.value.detail(record);
   }
 
   /**

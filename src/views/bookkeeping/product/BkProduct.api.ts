@@ -33,6 +33,10 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
+export const listBrand = (pageNo) =>
+  defHttp.get({ url: Api.listBrand, params: pageNo }).then((res) => {
+    return res.records;
+  });
 /**
  * 删除单个
  * @param params
