@@ -6,7 +6,9 @@ const { createConfirm } = useMessage();
 enum Api {
   list = '/bookkeeping/bkProduct/list',
   listRelationTree = '/bookkeeping/bkProductRelation/listTree',
+  //获取品牌
   listBrand = '/bookkeeping/bkBrand/list',
+  //获取供货商
   listCollaborator = '/bookkeeping/bkCollaborator/list',
   save = '/bookkeeping/bkProduct/add',
   edit = '/bookkeeping/bkProduct/edit',
@@ -35,6 +37,11 @@ export const list = (params) => defHttp.get({ url: Api.list, params });
 
 export const listBrand = (pageNo) =>
   defHttp.get({ url: Api.listBrand, params: pageNo }).then((res) => {
+    return res.records;
+  });
+
+export const listCollaborator = (pageNo) =>
+  defHttp.get({ url: Api.listCollaborator, params: pageNo }).then((res) => {
     return res.records;
   });
 /**

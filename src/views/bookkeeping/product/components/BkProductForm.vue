@@ -10,12 +10,12 @@
           </a-col>-->
           <a-col :span="24">
             <a-form-item label="商品名称" v-bind="validateInfos.name">
-              <a-input v-model:value="formData.name" prefix="💻" placeholder="请输入商品名称" />
+              <a-input v-model:value="formData.name" placeholder="请输入商品名称" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
             <a-form-item label="计量单位" v-bind="validateInfos.module">
-              <a-input v-model:value="formData.module" suffix="🛒" placeholder="请输入计量单位" />
+              <a-input v-model:value="formData.module" laceholder="请输入计量单位" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -27,7 +27,7 @@
                   :max-count="1"
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 >
-                  <a-button>
+                  <a-button type="primary">
                     <upload-outlined />
                     点击上传商品缩略图
                   </a-button>
@@ -36,10 +36,10 @@
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="单价" v-bind="validateInfos.price">
+            <a-form-item label="商品单价" v-bind="validateInfos.price">
               <a-input-number
                 v-model:value="formData.price"
-                style="width: 200px"
+                style="width: 100%"
                 :min="0"
                 :max="99999999"
                 :step="0.01"
@@ -56,7 +56,7 @@
           </a-col>
           <a-col :span="24">
             <a-form-item label="商品备注" v-bind="validateInfos.remark">
-              <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品备注" />
+              <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品备注" style="width: 100%" />
             </a-form-item>
           </a-col>
           <a-col :span="24">
@@ -65,26 +65,26 @@
                 v-model:value="formData.brandId"
                 show-search
                 placeholder="请选择品牌"
-                style="width: 200px"
-                :options="brandData.records"
+                style="width: 100%"
+                :options="brandData"
                 :filter-option="filterOption"
-                :fieldNames="{ label: 'name', value: 'id', options: brandData.records }"
+                :fieldNames="{ label: 'name', value: 'id', options: brandData }"
                 :autoClearSearchValue="true"
               />
             </a-form-item>
           </a-col>
           <a-col :span="24">
-            <a-form-item label="供货商id，0对应无厂商，临时购买，其他对应厂家" v-bind="validateInfos.collaboratorId">
-              <a-input-number
+            <a-form-item label="供货商" v-bind="validateInfos.collaboratorId">
+              <a-select
                 v-model:value="formData.collaboratorId"
-                placeholder="请输入供货商id，0对应无厂商，临时购买，其他对应厂家"
+                show-search
+                placeholder="请选择供货商"
                 style="width: 100%"
+                :options="collaboratorsData"
+                :filter-option="filterOption"
+                :fieldNames="{ label: 'title', value: 'key', options: collaboratorsData }"
+                :autoClearSearchValue="true"
               />
-            </a-form-item>
-          </a-col>
-          <a-col :span="24">
-            <a-form-item label="品牌id" v-bind="validateInfos.brandId">
-              <a-input-number v-model:value="formData.brandId" placeholder="请输入品牌id" style="width: 100%" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -99,7 +99,7 @@
   import { getValueType } from '/@/utils';
   import { saveOrUpdate } from '../BkProduct.api';
   import { Form } from 'ant-design-vue';
-  import { brandData } from '../BkProduct.data';
+  import { brandData, collaboratorsData } from "../BkProduct.data";
   const visible = ref<boolean>(false);
   const title = ref<string>('新增');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,no-unused-vars

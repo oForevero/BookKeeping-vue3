@@ -1,6 +1,6 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { listBrand } from './BkProduct.api';
+import { listBrand, listCollaborator } from "./BkProduct.api";
 import { rules } from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import { h } from 'vue';
@@ -149,3 +149,5 @@ export const formSchema: FormSchema[] = [
 ];
 
 export const brandData = await listBrand(1);
+
+export const collaboratorsData = await listCollaborator(1);
