@@ -3,11 +3,6 @@
     <a-spin :spinning="confirmLoading">
       <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
         <a-row>
-          <!--          <a-col :span="24">
-            <a-form-item label="关系id" v-bind="validateInfos.relationId">
-              <a-input-number v-model:value="formData.relationId" placeholder="请输入关系id" style="width: 100%" />
-            </a-form-item>
-          </a-col>-->
           <a-col :span="24">
             <a-form-item label="商品名称" v-bind="validateInfos.name">
               <a-input v-model:value="formData.name" placeholder="请输入商品名称" />
@@ -113,7 +108,7 @@
   const formData = reactive<Record<string, any>>({
     id: '',
     relationId: undefined,
-    productImg: '商品图片',
+    productImg: [],
     name: '',
     price: undefined,
     module: '',
@@ -139,9 +134,14 @@
   /**
    * 新增
    */
-  function add() {
-    title.value = '新增';
-    edit({});
+  function add(record) {
+    nextTick(() => {
+      title.value = '新增';
+      visible.value = true;
+      resetFields();
+      //赋值
+      Object.assign(formData, record);
+    });
   }
 
   /**

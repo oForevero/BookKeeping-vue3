@@ -102,7 +102,6 @@
   }
   defineExpose({
     detail,
-    disableSubmit,
   });
 </script>
 

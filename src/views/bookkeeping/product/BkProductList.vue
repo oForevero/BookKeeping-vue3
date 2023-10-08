@@ -4,14 +4,12 @@
     <div class="jeecg-basic-table-form-container">
       <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-row :gutter="24">
-<!--          <a-input v-model:value="queryParam" placeholder="Basic usage" />-->
+          <!--          <a-input v-model:value="queryParam" placeholder="Basic usage" />-->
         </a-row>
       </a-form>
     </div>
     <el-row>
-      <el-col :span="5">
-        
-      </el-col>
+      <el-col :span="5" />
       <el-col :span="19">
         <!--引用表格-->
         <BasicTable @register="registerTable" :rowSelection="rowSelection">
@@ -30,7 +28,7 @@
                 </a-menu>
               </template>
               <a-button
-              >批量操作
+                >批量操作
                 <Icon icon="mdi:chevron-down" />
               </a-button>
             </a-dropdown>
@@ -49,7 +47,9 @@
           </template>
           <template #fileSlot="{ text }">
             <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
-            <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
+            <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)"
+              >下载</a-button
+            >
           </template>
         </BasicTable>
       </el-col>
@@ -115,7 +115,7 @@
    * 新增事件
    */
   function handleAdd() {
-    editForm.value.add();
+    editForm.value.add({});
   }
 
   /**
