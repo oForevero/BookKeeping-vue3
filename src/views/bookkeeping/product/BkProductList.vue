@@ -2,7 +2,8 @@
   <div style="height:100%">
     <a-row style="height:100%">
       <a-col :span="4" style="height:100%">
-        <BasicTree title="商品类型" toolbar checkable search :treeData="treeData" :beforeRightClick="getRightMenuList"
+        <BasicTree title="商品类型" toolbar search :treeData="treeData" :beforeRightClick="getRightMenuList"
+                   :fieldNames="{children: 'children', title: 'relationName', key: 'id', value:'id'}"
                    defaultExpandAll="true"/>
       </a-col>
       <a-col :span="20" style="height:100%">
