@@ -1,6 +1,5 @@
-import {defHttp} from '/@/utils/http/axios';
+import { defHttp } from '/@/utils/http/axios';
 import { useMessage } from "/@/hooks/web/useMessage";
-import {toRaw} from "vue";
 
 const { createConfirm } = useMessage();
 
@@ -16,21 +15,23 @@ enum Api {
   importExcel = '/bookkeeping/bkProduct/importExcel',
   exportXls = '/bookkeeping/bkProduct/exportXls',
 }
+
 /**
  * 导出api
  * @param params
  */
 export const getExportUrl = Api.exportXls;
+
 /**
  * 导入api
  */
 export const getImportUrl = Api.importExcel;
+
 /**
  * 列表接口
  * @param params
  */
-export const list = (params) =>
-  defHttp.get({url: Api.list, params});
+export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
  * 获取左侧menu
@@ -40,11 +41,19 @@ export const relationListTree = () =>
     return res;
   });
 
+/**
+ * 品牌获取
+ * @param pageNo
+ */
 export const listBrand = (pageNo) =>
   defHttp.get({url: Api.listBrand, params: pageNo}).then((res) => {
     return res.records;
   });
 
+/**
+ * 供货商获取
+ * @param pageNo
+ */
 export const listCollaborator = (pageNo) =>
   defHttp.get({url: Api.listCollaborator, params: pageNo}).then((res)=>{
     return res.records;
@@ -52,15 +61,19 @@ export const listCollaborator = (pageNo) =>
 
 /**
  * 删除单个
+ * @param params
+ * @param handleSuccess
  */
 export const deleteOne = (params,handleSuccess) => {
   return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
     handleSuccess();
   });
 }
+
 /**
  * 批量删除
  * @param params
+ * @param handleSuccess
  */
 export const batchDelete = (params, handleSuccess) => {
   createConfirm({
@@ -76,11 +89,13 @@ export const batchDelete = (params, handleSuccess) => {
     }
   });
 }
+
 /**
  * 保存或者更新
  * @param params
+ * @param isUpdate
  */
 export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
-  return defHttp.post({url: url, params});
+  return defHttp.post({ url: url, params }, { isTransformResponse: false });
 }
