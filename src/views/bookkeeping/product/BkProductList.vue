@@ -4,6 +4,7 @@
       <a-col :span="4" style="height:100%">
         <BasicTree title="商品类型" toolbar search :treeData="treeData" :beforeRightClick="getRightMenuList"
                    :fieldNames="{children: 'children', title: 'relationName', key: 'id', value:'id'}"
+                   @select="onProductTypeSelect"
                    defaultExpandAll="true"/>
       </a-col>
       <a-col :span="20" style="height:100%">
@@ -107,6 +108,24 @@
     xs: { span: 24 },
     sm: { span: 16 },
   });
+
+  /**
+   * 左侧树选中事件
+   * @param keys
+   */
+  function onProductTypeSelect(keys, e){
+    console.log(e.node);
+    if(!e.node){
+      queryParam.value.lft = '';
+      queryParam.value.rgt = '';
+      return;
+    }
+    let lft = e.node.lft;
+    let rgt = e.node.rgt;
+    queryParam.value.lft = lft;
+    queryParam.value.rgt = rgt;
+    reload();
+  }
 
   /**
    * 新增事件
