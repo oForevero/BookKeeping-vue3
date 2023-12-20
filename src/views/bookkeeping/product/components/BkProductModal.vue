@@ -1,67 +1,86 @@
 <template>
-  <a-modal :title="title" :width="width" :visible="visible" @ok="handleOk" :okButtonProps="{ class: { 'jee-hidden': disableSubmit } }" @cancel="handleCancel" cancelText="关闭">
-    <BkProductForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></BkProductForm>
-  </a-modal>
+  <BasicModal :width="width" :visible="visible" v-bind="$attrs" destroyOnClose :title="'详情'" useWrapper="true"
+              :showOkBtn="false" :showCancelBtn="true">
+    <a-descriptions bordered>
+      <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
+      <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
+      <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
+      <a-descriptions-item label="单价">{{detailData.price}}￥</a-descriptions-item>
+      <a-descriptions-item label="品牌">{{detailData.brandName}}</a-descriptions-item>
+      <a-descriptions-item label="厂家" :span="2">{{detailData.collaboratorName}}</a-descriptions-item>
+      <a-descriptions-item label="状态">
+        <a-badge status="processing" v-show="detailData.status === '0'" :text="detailData.status_dictText" />
+        <a-badge status="warning" v-show="detailData.status === '1'" :text="detailData.status_dictText" />
+        <a-badge status="error" v-show="detailData.status === '2'" :text="detailData.status_dictText" />
+      </a-descriptions-item>
+      <a-descriptions-item label="存放区域">{{detailData.location_dictText}}</a-descriptions-item>
+      <a-descriptions-item label="最后一次进价">{{detailData.latestPurchasePrice}}￥</a-descriptions-item>
+      <a-descriptions-item label="平均进价">{{detailData.avgPurchasePrice}}￥</a-descriptions-item>
+      <a-descriptions-item label="备注信息" :span="3">
+        范例详情信息
+        <br />
+        Data disk type: MongoDB
+        <br />
+        Database version: 3.4
+        <br />
+        Package: dds.mongo.mid
+        <br />
+        Storage space: 10 GB
+        <br />
+        Replication factor: 3
+        <br />
+        Region: East China 1
+        <br />
+        {{detailData.remark}}
+      </a-descriptions-item>
+    </a-descriptions>
+  </BasicModal>
 </template>
 
 <script lang="ts" setup>
   import { ref, nextTick, defineExpose } from 'vue';
-  import BkProductForm from './BkProductForm.vue'
-  
-  const title = ref<string>('');
-  const width = ref<number>(800);
+  import BasicModal from "/@/components/Modal/src/BasicModal.vue";
+  const detailData = ref({
+    relationName: null,
+    amount: null,
+    avgPurchasePrice: null,
+    brandId: null,
+    brandName: null,
+    collaboratorId: null,
+    collaboratorName: null,
+    id: null,
+    latestPurchasePrice: null,
+    location: null,
+    location_dictText: null,
+    module: null,
+    name: null,
+    price: null,
+    productImg: null,
+    relationId: null,
+    remark: null,
+    status: null,
+    status_dictText: null,
+  });
+  const width = ref<number>(1100);
   const visible = ref<boolean>(false);
   const disableSubmit = ref<boolean>(false);
   const registerForm = ref();
   const emit = defineEmits(['register', 'success']);
 
   /**
-   * 新增
-   */
-  function add() {
-    title.value = '新增';
-    visible.value = true;
-    nextTick(() => {
-      registerForm.value.add();
-    });
-  }
-  
-  /**
    * 编辑
    * @param record
    */
   function edit(record) {
-    title.value = disableSubmit.value ? '详情' : '编辑';
     visible.value = true;
-    nextTick(() => {
-      registerForm.value.edit(record);
-    });
-  }
-  
-  /**
-   * 确定按钮点击事件
-   */
-  function handleOk() {
-    registerForm.value.submitForm();
   }
 
-  /**
-   * form保存回调事件
-   */
-  function submitCallback() {
-    handleCancel();
-    emit('success');
-  }
-
-  /**
-   * 取消按钮回调事件
-   */
-  function handleCancel() {
-    visible.value = false;
+  function showDetail(record){
+    visible.value = true;
+    detailData.value = record;
   }
 
   defineExpose({
-    add,
     edit,
     disableSubmit,
   });

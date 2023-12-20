@@ -56,7 +56,7 @@
       </a-col>
     </a-row>
     <!-- 表单区域 -->
-    <BkProductModal ref="registerModal" @success="handleSuccess"></BkProductModal>
+    <BkProductModal ref="detailModal" @success="handleSuccess"></BkProductModal>
   </div>
 </template>
 
@@ -73,7 +73,7 @@
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
-  const registerModal = ref();
+  const detailModal = ref();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -131,24 +131,24 @@
    * 新增事件
    */
   function handleAdd() {
-    registerModal.value.disableSubmit = false;
-    registerModal.value.add();
+    detailModal.value.disableSubmit = false;
+    detailModal.value.add();
   }
   
   /**
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
-    registerModal.value.disableSubmit = false;
-    registerModal.value.edit(record);
+    detailModal.value.disableSubmit = false;
+    detailModal.value.showDetail(record);
   }
    
   /**
    * 详情
    */
   function handleDetail(record: Recordable) {
-    registerModal.value.disableSubmit = true;
-    registerModal.value.edit(record);
+    detailModal.value.disableSubmit = true;
+    detailModal.value.edit(record);
   }
    
   /**
