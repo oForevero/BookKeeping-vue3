@@ -1,6 +1,5 @@
 <template>
-  <BasicModal :width="width" :visible="visible" v-bind="$attrs" destroyOnClose :title="'详情'" useWrapper="true"
-              :showOkBtn="false" :showCancelBtn="true">
+  <a-modal :width="width" :visible="visible" v-bind="$attrs" :title="'详情'" :useWrapper="true" @cancel="handleCancel">
     <a-descriptions bordered>
       <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
@@ -34,7 +33,10 @@
         {{detailData.remark}}
       </a-descriptions-item>
     </a-descriptions>
-  </BasicModal>
+    <template #footer>
+      <a-button key="back" @click="handleCancel">取消</a-button>
+    </template>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
@@ -63,7 +65,6 @@
   });
   const width = ref<number>(1100);
   const visible = ref<boolean>(false);
-  const disableSubmit = ref<boolean>(false);
   const registerForm = ref();
   const emit = defineEmits(['register', 'success']);
 
@@ -75,15 +76,23 @@
     visible.value = true;
   }
 
+  /**
+   * 取消按钮回调事件
+   */
+  function handleCancel() {
+    visible.value = false;
+  }
+
   function showDetail(record){
+    console.log('Edit 方法被调用');
     visible.value = true;
     detailData.value = record;
   }
 
   defineExpose({
-    edit,
-    disableSubmit,
+    edit, showDetail
   });
+
 </script>
 
 <style>

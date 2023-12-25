@@ -5,7 +5,7 @@
         <BasicTree title="商品类型" toolbar search :treeData="treeData" :beforeRightClick="getRightMenuList"
                    :fieldNames="{children: 'children', title: 'relationName', key: 'id', value:'id'}"
                    @select="onProductTypeSelect"
-                   defaultExpandAll="true"/>
+                   :defaultExpandAll="true"/>
       </a-col>
       <a-col :span="20" style="height:100%">
         <!--查询区域-->
@@ -69,7 +69,7 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue'
   import {treeData} from "/@/views/bookkeeping/product_backup/BkProduct.data";
-  import {BasicTree} from "/@/components/Tree";
+  import {BasicTree, ContextMenuItem} from "/@/components/Tree";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
@@ -128,6 +128,36 @@
   }
 
   /**
+   * 右键list按钮
+   * @param node
+   */
+  function getRightMenuList(node: any): ContextMenuItem[] {
+    return [
+      {
+        label: '新增',
+        handler: () => {
+          console.log('点击了新增', node);
+        },
+        icon: 'bi:plus',
+      },
+      {
+        label: '修改',
+        handler: () => {
+          console.log('点击了修改', node);
+        },
+        icon: 'bi:edit',
+      },
+      {
+        label: '删除',
+        handler: () => {
+          console.log('点击了删除', node);
+        },
+        icon: 'bx:bxs-folder-open',
+      },
+    ];
+  }
+
+  /**
    * 新增事件
    */
   function handleAdd() {
@@ -139,7 +169,6 @@
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
-    detailModal.value.disableSubmit = false;
     detailModal.value.showDetail(record);
   }
    
@@ -147,8 +176,7 @@
    * 详情
    */
   function handleDetail(record: Recordable) {
-    detailModal.value.disableSubmit = true;
-    detailModal.value.edit(record);
+    detailModal.value.showDetail(record);
   }
    
   /**
