@@ -1,66 +1,75 @@
 <template>
-  <BasicModal v-bind="$attrs" @register="registerModal" destroyOnClose :title="title" :width="800" @ok="handleSubmit">
-      <BasicForm @register="registerForm"/>
-  </BasicModal>
+  <a-modal :title="title" :width="width" :visible="visible" @ok="handleOk" :okButtonProps="{ class: { 'jee-hidden': disableSubmit } }" @cancel="handleCancel" cancelText="关闭">
+    <BkCollaboratorForm ref="registerForm" @ok="submitCallback" :formDisabled="disableSubmit" :formBpm="false"></BkCollaboratorForm>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
-    import {ref, computed, unref} from 'vue';
-    import {BasicModal, useModalInner} from '/@/components/Modal';
-    import {BasicForm, useForm} from '/@/components/Form/index';
-    import {formSchema} from '../BkCollaborator.data';
-    import {saveOrUpdate} from '../BkCollaborator.api';
-    // Emits声明
-    const emit = defineEmits(['register','success']);
-    const isUpdate = ref(true);
-    //表单配置
-    const [registerForm, {setProps,resetFields, setFieldsValue, validate}] = useForm({
-        //labelWidth: 150,
-        schemas: formSchema,
-        showActionButtonGroup: false,
-        baseColProps: {span: 24}
+  import { ref, nextTick, defineExpose } from 'vue';
+  import BkCollaboratorForm from './BkCollaboratorForm.vue'
+  
+  const title = ref<string>('');
+  const width = ref<number>(800);
+  const visible = ref<boolean>(false);
+  const disableSubmit = ref<boolean>(false);
+  const registerForm = ref();
+  const emit = defineEmits(['register', 'success']);
+
+  /**
+   * 新增
+   */
+  function add() {
+    title.value = '新增';
+    visible.value = true;
+    nextTick(() => {
+      registerForm.value.add();
     });
-    //表单赋值
-    const [registerModal, {setModalProps, closeModal}] = useModalInner(async (data) => {
-        //重置表单
-        await resetFields();
-        setModalProps({confirmLoading: false,showCancelBtn:!!data?.showFooter,showOkBtn:!!data?.showFooter});
-        isUpdate.value = !!data?.isUpdate;
-        if (unref(isUpdate)) {
-            //表单赋值
-            await setFieldsValue({
-                ...data.record,
-            });
-        }
-        // 隐藏底部时禁用整个表单
-       setProps({ disabled: !data?.showFooter })
+  }
+  
+  /**
+   * 编辑
+   * @param record
+   */
+  function edit(record) {
+    title.value = disableSubmit.value ? '详情' : '编辑';
+    visible.value = true;
+    nextTick(() => {
+      registerForm.value.edit(record);
     });
-    //设置标题
-    const title = computed(() => (!unref(isUpdate) ? '新增' : '编辑'));
-    //表单提交事件
-    async function handleSubmit(v) {
-        try {
-            let values = await validate();
-            setModalProps({confirmLoading: true});
-            //提交表单
-            await saveOrUpdate(values, isUpdate.value);
-            //关闭弹窗
-            closeModal();
-            //刷新列表
-            emit('success');
-        } finally {
-            setModalProps({confirmLoading: false});
-        }
-    }
+  }
+  
+  /**
+   * 确定按钮点击事件
+   */
+  function handleOk() {
+    registerForm.value.submitForm();
+  }
+
+  /**
+   * form保存回调事件
+   */
+  function submitCallback() {
+    handleCancel();
+    emit('success');
+  }
+
+  /**
+   * 取消按钮回调事件
+   */
+  function handleCancel() {
+    visible.value = false;
+  }
+
+  defineExpose({
+    add,
+    edit,
+    disableSubmit,
+  });
 </script>
 
-<style lang="less" scoped>
-	/** 时间和数字输入框样式 */
-  :deep(.ant-input-number){
-		width: 100%
-	}
-
-	:deep(.ant-calendar-picker){
-		width: 100%
-	}
+<style>
+  /**隐藏样式-modal确定按钮 */
+  .jee-hidden {
+    display: none !important;
+  }
 </style>

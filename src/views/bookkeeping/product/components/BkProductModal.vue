@@ -4,7 +4,9 @@
       <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
       <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
-      <a-descriptions-item label="单价">{{detailData.price}}￥</a-descriptions-item>
+      <a-descriptions-item label="单价">
+        <a-tag color="green">{{detailData.price}}￥</a-tag>
+      </a-descriptions-item>
       <a-descriptions-item label="品牌">{{detailData.brandName}}</a-descriptions-item>
       <a-descriptions-item label="厂家" :span="2">{{detailData.collaboratorName}}</a-descriptions-item>
       <a-descriptions-item label="状态">
@@ -12,9 +14,15 @@
         <a-badge status="warning" v-show="detailData.status === '1'" :text="detailData.status_dictText" />
         <a-badge status="error" v-show="detailData.status === '2'" :text="detailData.status_dictText" />
       </a-descriptions-item>
-      <a-descriptions-item label="存放区域">{{detailData.location_dictText}}</a-descriptions-item>
-      <a-descriptions-item label="最后一次进价">{{detailData.latestPurchasePrice}}￥</a-descriptions-item>
-      <a-descriptions-item label="平均进价">{{detailData.avgPurchasePrice}}￥</a-descriptions-item>
+      <a-descriptions-item label="存放区域">
+        {{detailData.location_dictText}}
+      </a-descriptions-item>
+      <a-descriptions-item label="最新进价">
+        <a-tag color="red">{{detailData.latestPurchasePrice}}￥</a-tag>
+      </a-descriptions-item>
+      <a-descriptions-item label="平均进价">
+        <a-tag color="blue">{{detailData.avgPurchasePrice}}￥</a-tag>
+      </a-descriptions-item>
       <a-descriptions-item label="备注信息" :span="3">
         范例详情信息
         <br />
@@ -41,7 +49,7 @@
 
 <script lang="ts" setup>
   import { ref, nextTick, defineExpose } from 'vue';
-  import BasicModal from "/@/components/Modal/src/BasicModal.vue";
+
   const detailData = ref({
     relationName: null,
     amount: null,

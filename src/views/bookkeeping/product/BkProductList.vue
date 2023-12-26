@@ -47,6 +47,9 @@
             <template #pcaSlot="{text}">
               {{ getAreaTextByCode(text) }}
             </template>
+            <template #price="{text}">
+              <a-tag color="green">{{text}}￥</a-tag>
+            </template>
             <template #fileSlot="{text}">
               <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
               <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
@@ -57,6 +60,7 @@
     </a-row>
     <!-- 表单区域 -->
     <BkProductModal ref="detailModal" @success="handleSuccess"></BkProductModal>
+    <BkProductForm ref="modifyModal" @success="handleSuccess"></BkProductForm>
   </div>
 </template>
 
@@ -67,13 +71,16 @@
   import { columns } from './BkProduct.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
-  import BkProductModal from './components/BkProductModal.vue'
-  import {treeData} from "/@/views/bookkeeping/product_backup/BkProduct.data";
+  import BkProductModal from './components/BkProductModal.vue';
+  import BkProductForm from "./components/BkProductForm.vue"
+  import {treeData} from "./BkProduct.data";
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
+  import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
+  const modifyModal = ref();
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -161,15 +168,14 @@
    * 新增事件
    */
   function handleAdd() {
-    detailModal.value.disableSubmit = false;
-    detailModal.value.add();
+    modifyModal.value.add();
   }
   
   /**
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
-    detailModal.value.showDetail(record);
+    modifyModal.value.edit(record);
   }
    
   /**
