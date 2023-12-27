@@ -79,8 +79,6 @@ export const columns: BasicColumn[] = [
 export const treeData: TreeItem[] = await relationListTree();
 export const brandData = await listBrand(1);
 
-export const collaboratorData = await listCollaborator(1);
-
 //查询数据
 export const searchFormSchema: FormSchema[] = [
   {

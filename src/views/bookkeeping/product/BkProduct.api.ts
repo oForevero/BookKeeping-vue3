@@ -7,7 +7,7 @@ enum Api {
   list = '/bookkeeping/bkProduct/list',
   listRelationTree = "/bookkeeping/bkProductRelation/listTree",
   listBrand = "/bookkeeping/bkBrand/list",
-  listCollaborator = "/bookkeeping/bkCollaborator/list",
+  listCollaborator = "/bookkeeping/bkCollaborator/listPurchaseGroup",
   save='/bookkeeping/bkProduct/add',
   edit='/bookkeeping/bkProduct/edit',
   deleteOne = '/bookkeeping/bkProduct/delete',
@@ -53,9 +53,12 @@ export const listBrand = (pageNo) =>
 /**
  * 供货商获取
  * @param pageNo
+ * @param name
+ * @param scale
  */
-export const listCollaborator = (pageNo) =>
-  defHttp.get({url: Api.listCollaborator, params: pageNo}).then((res)=>{
+export const listCollaborator = (pageNo, name, scale) =>
+  defHttp.get({url: Api.listCollaborator, params: {pageNo:pageNo, name: name, types: "1,2", scale: scale}}).then((res)=>{
+    console.log(res);
     return res.records;
   });
 
