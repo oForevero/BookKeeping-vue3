@@ -49,6 +49,6 @@ export const formSchema: FormSchema[] = [
   },
   {
     label: '品牌图片',
-    field
+    field: 'imageUrl',
   }
 ];

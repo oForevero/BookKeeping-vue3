@@ -59,7 +59,7 @@
               @search="handleSearch"
             >
               <template v-for="item in collaboratorData" :key="item.id">
-                <a-select-option :value="item.id">{{ item.companyName }}</a-select-option>
+                <a-select-option :value="item.id" :label="item.companyName">{{item.companyName}}</a-select-option>
               </template>
             </a-select>
           </a-form-item>
