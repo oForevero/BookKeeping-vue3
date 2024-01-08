@@ -6,7 +6,7 @@
       <a-descriptions-item label="图片展示">
         <img width="110" height="90" alt="" :src="noImage" v-if="!detailData.productImg" style="margin:0 auto;"/>
         <p style="text-align: center; color: #999999" v-if="!detailData.productImg">暂无数据</p>
-<!--        <j-image-upload disabled="true" v-if="detailData.productImg" v-model:value="detailData.productImg"></j-image-upload>-->
+        <img width="110" height="90" alt="" :src="domainUrl+ '/sys/common/static/' + detailData.productImg" v-if="detailData.productImg" style="margin:0 auto;"/>
       </a-descriptions-item>
       <a-descriptions-item label="单价">
         <a-tag color="green">{{detailData.price}}￥</a-tag>
@@ -55,6 +55,8 @@
   import { ref, nextTick, defineExpose } from 'vue';
   import noImage from '/@/assets/images/no_img.png';
   import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";
+  import {useGlobSetting} from "/@/hooks/setting";
+  const { domainUrl } = useGlobSetting();
 
   const detailData = ref({
     relationName: null,
