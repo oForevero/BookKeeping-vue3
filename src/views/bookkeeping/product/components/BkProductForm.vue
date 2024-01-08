@@ -27,6 +27,11 @@
             <a-input v-model:value="formData.name" placeholder="请输入商品名" ></a-input>
           </a-form-item>
         </a-col>
+        <a-col>
+          <a-form-item label="商品图片" v-bind="validateInfos.productImg">
+            <j-image-upload :value=formData.productImg text="上传" :multiple="false" :bizPath="'product'"/>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
           <a-form-item label="商品单价" v-bind="validateInfos.price">
             <a-input-number v-model:value="formData.price" placeholder="请输入商品单价" style="width: 100%" />
@@ -94,6 +99,7 @@ import { getValueType } from '/@/utils';
 import { saveOrUpdate, listCollaborator } from '../BkProduct.api';
 import { Form } from 'ant-design-vue';
 import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
+import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";
 
 const props = defineProps({
   formDisabled: { type: Boolean, default: false },
@@ -112,6 +118,7 @@ const formData = reactive<Record<string, any>>({
   amount: undefined,
   remark: '',
   collaboratorId: undefined,
+  productImg: undefined,
   brandId: undefined,
 });
 const collaboratorData = ref<any>([]);
@@ -239,6 +246,7 @@ async function submitForm() {
     .then((res) => {
       if (res.success) {
         createMessage.success(res.message);
+        visible.value = false;
         emit('ok');
       } else {
         createMessage.warning(res.message);

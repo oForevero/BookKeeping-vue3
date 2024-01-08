@@ -3,7 +3,11 @@
     <a-descriptions bordered>
       <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
-      <a-descriptions-item label="图片展示"><img width="110" height="90" alt="" src="../img/capoo.gif"/>{{detailData.productImg}}</a-descriptions-item>
+      <a-descriptions-item label="图片展示">
+        <img width="110" height="90" alt="" :src="noImage" v-if="!detailData.productImg" style="margin:0 auto;"/>
+        <p style="text-align: center; color: #999999" v-if="!detailData.productImg">暂无数据</p>
+<!--        <j-image-upload disabled="true" v-if="detailData.productImg" v-model:value="detailData.productImg"></j-image-upload>-->
+      </a-descriptions-item>
       <a-descriptions-item label="单价">
         <a-tag color="green">{{detailData.price}}￥</a-tag>
       </a-descriptions-item>
@@ -49,6 +53,8 @@
 
 <script lang="ts" setup>
   import { ref, nextTick, defineExpose } from 'vue';
+  import noImage from '/@/assets/images/no_img.png';
+  import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";
 
   const detailData = ref({
     relationName: null,

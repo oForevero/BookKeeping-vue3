@@ -58,7 +58,6 @@ export const listBrand = (pageNo) =>
  */
 export const listCollaborator = (pageNo, name, scale) =>
   defHttp.get({url: Api.listCollaborator, params: {pageNo:pageNo, name: name, types: "1,2", scale: scale}}).then((res)=>{
-    console.log(res);
     return res.records;
   });
 

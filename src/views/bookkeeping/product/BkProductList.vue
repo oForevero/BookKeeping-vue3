@@ -203,7 +203,8 @@
    * 成功回调
    */
   function handleSuccess() {
-    (selectedRowKeys.value = []) && reload();
+    selectedRowKeys.value = [];
+    reload();
   }
    
   /**
