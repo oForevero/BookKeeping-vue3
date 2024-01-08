@@ -65,8 +65,19 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="品牌id" v-bind="validateInfos.brandId">
-            <a-input-number v-model:value="formData.brandId" placeholder="请输入品牌id" style="width: 100%" />
+          <a-form-item label="品牌" v-bind="validateInfos.brandId">
+            <a-select
+              v-model:value="formData.brandId"
+              placeholder="请选择品牌"
+              allowClear
+              showSearch
+              optionFilterProp="label"
+            >
+              <template v-for="item in brandData" :key="item.id">
+                <a-select-option :value="item.id" :label="item.name">{{item.name}}</a-select-option>
+              </template>
+            </a-select>
+<!--            <a-input-number v-model:value="formData.brandId" placeholder="请输入品牌id" style="width: 100%" />-->
           </a-form-item>
         </a-col>
       </a-row>
@@ -77,7 +88,7 @@
 <script lang="ts" setup>
 import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
 import { defHttp } from '/@/utils/http/axios';
-import {treeData} from "../BkProduct.data";
+import {treeData,brandData} from "../BkProduct.data";
 import { useMessage } from '/@/hooks/web/useMessage';
 import { getValueType } from '/@/utils';
 import { saveOrUpdate, listCollaborator } from '../BkProduct.api';
