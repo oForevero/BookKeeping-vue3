@@ -172,6 +172,7 @@
        * 文件上传结果回调
        */
       function handleChange({ file, fileList, event }) {
+        debugger
         initTag.value = false;
         uploadFileList.value = fileList;
         if (file.status === 'error') {
