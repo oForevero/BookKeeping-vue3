@@ -23,7 +23,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="商品名" v-bind="validateInfos.name">
+          <a-form-item label="商品名称" v-bind="validateInfos.name">
             <a-input v-model:value="formData.name" placeholder="请输入商品名" ></a-input>
           </a-form-item>
         </a-col>
@@ -39,7 +39,7 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="计量单位" v-bind="validateInfos.module">
-            <j-dict-select-tag v-model="formData.module" placeholder="请选择计量单位" dictCode="product_count"/>
+            <j-dict-select-tag v-model:value="formData.module" placeholder="请选择计量单位" dictCode="product_count"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -53,7 +53,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="供货商" v-bind="validateInfos.collaboratorId">
+          <a-form-item label="供货商家" v-bind="validateInfos.collaboratorId">
             <a-select
               v-model:value="formData.collaboratorId"
               placeholder="请选择供货商"
@@ -70,7 +70,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="品牌" v-bind="validateInfos.brandId">
+          <a-form-item label="商品品牌" v-bind="validateInfos.brandId">
             <a-select
               v-model:value="formData.brandId"
               placeholder="请选择品牌"
@@ -82,7 +82,11 @@
                 <a-select-option :value="item.id" :label="item.name">{{item.name}}</a-select-option>
               </template>
             </a-select>
-<!--            <a-input-number v-model:value="formData.brandId" placeholder="请输入品牌id" style="width: 100%" />-->
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="存放区域" v-bind="validateInfos.location">
+            <j-dict-select-tag v-model:value="formData.location" stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -108,7 +112,7 @@ const props = defineProps({
 });
 const formRef = ref();
 const useForm = Form.useForm;
-const emit = defineEmits(['register', 'ok']);
+const emit = defineEmits(['success']);
 const formData = reactive<Record<string, any>>({
   id: '',
   relationId: undefined,
@@ -120,6 +124,7 @@ const formData = reactive<Record<string, any>>({
   collaboratorId: undefined,
   productImg: undefined,
   brandId: undefined,
+  location: 0,
 });
 const collaboratorData = ref<any>([]);
 const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
@@ -247,7 +252,7 @@ async function submitForm() {
       if (res.success) {
         createMessage.success(res.message);
         visible.value = false;
-        emit('ok');
+        emit('success');
       } else {
         createMessage.warning(res.message);
       }

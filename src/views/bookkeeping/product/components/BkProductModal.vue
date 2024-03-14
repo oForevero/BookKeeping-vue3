@@ -28,21 +28,23 @@
         <a-tag color="blue">{{detailData.avgPurchasePrice}}￥</a-tag>
       </a-descriptions-item>
       <a-descriptions-item label="备注信息" :span="3">
-        范例详情信息
-        <br />
-        Data disk type: MongoDB
-        <br />
-        Database version: 3.4
-        <br />
-        Package: dds.mongo.mid
-        <br />
-        Storage space: 10 GB
-        <br />
-        Replication factor: 3
-        <br />
-        Region: East China 1
-        <br />
-        {{detailData.remark}}
+        <pre>
+          范例详情信息
+          <br />
+          Data disk type: MongoDB
+          <br />
+          Database version: 3.4
+          <br />
+          Package: dds.mongo.mid
+          <br />
+          Storage space: 10 GB
+          <br />
+          Replication factor: 3
+          <br />
+          Region: East China 1
+          <br />
+          {{detailData.remark}}
+        </pre>
       </a-descriptions-item>
     </a-descriptions>
     <template #footer>
@@ -82,7 +84,6 @@
   const width = ref<number>(1100);
   const visible = ref<boolean>(false);
   const registerForm = ref();
-  const emit = defineEmits(['register', 'success']);
 
   /**
    * 编辑
