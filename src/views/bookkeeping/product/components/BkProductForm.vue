@@ -201,7 +201,9 @@ function add() {
  * 编辑
  */
 function edit(record) {
-  title.value = "编辑"
+  if(Object.keys(record).length !== 0){
+    title.value = "编辑"
+  }
   visible.value = true;
   nextTick(() => {
     resetFields();
