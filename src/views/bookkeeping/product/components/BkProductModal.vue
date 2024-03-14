@@ -51,7 +51,7 @@
   </a-modal>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="bkProductModal">
   import { ref, nextTick, defineExpose } from 'vue';
   import noImage from '/@/assets/images/no_img.png';
   import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";

@@ -29,7 +29,7 @@
         </a-col>
         <a-col>
           <a-form-item label="商品图片" v-bind="validateInfos.productImg">
-            <j-image-upload :value=formData.productImg text="上传" :multiple="false" :bizPath="'product'"/>
+            <j-image-upload v-model:value=formData.productImg text="上传" :multiple="false" :bizPath="'product'"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -90,7 +90,7 @@
   </a-modal>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="bkProductForm">
 import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
 import { defHttp } from '/@/utils/http/axios';
 import {treeData,brandData} from "../BkProduct.data";

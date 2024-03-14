@@ -64,7 +64,7 @@
   </div>
 </template>
 
-<script lang="ts" name="top.mccat-bkProduct" setup>
+<script lang="ts" name="bkProductList" setup>
   import { ref, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
@@ -170,35 +170,35 @@
   function handleAdd() {
     modifyModal.value.add();
   }
-  
+
   /**
    * 编辑事件
    */
   function handleEdit(record: Recordable) {
     modifyModal.value.edit(record);
   }
-   
+
   /**
    * 详情
    */
   function handleDetail(record: Recordable) {
     detailModal.value.showDetail(record);
   }
-   
+
   /**
    * 删除事件
    */
   async function handleDelete(record) {
     await deleteOne({ id: record.id }, handleSuccess);
   }
-   
+
   /**
    * 批量删除事件
    */
   async function batchHandleDelete() {
     await batchDelete({ ids: selectedRowKeys.value }, handleSuccess);
   }
-   
+
   /**
    * 成功回调
    */
@@ -206,7 +206,7 @@
     selectedRowKeys.value = [];
     reload();
   }
-   
+
   /**
    * 操作栏
    */
@@ -218,7 +218,7 @@
       },
     ];
   }
-   
+
   /**
    * 下拉操作栏
    */
@@ -243,7 +243,7 @@
   function searchQuery() {
     reload();
   }
-  
+
   /**
    * 重置
    */
@@ -253,7 +253,7 @@
     //刷新数据
     reload();
   }
-  
+
 
 
 
