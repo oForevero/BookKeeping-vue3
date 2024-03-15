@@ -12,6 +12,27 @@
         <div class="jeecg-basic-table-form-container">
           <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
             <a-row :gutter="24">
+              <a-col :span="5">
+                <a-form-item label="商品名称">
+                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                </a-form-item>
+              </a-col>
+              <a-col :span="5">
+                <a-form-item label="商品名称">
+                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                </a-form-item>
+              </a-col>
+              <a-col :span="5">
+                <a-form-item label="商品名称">
+                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                </a-form-item>
+              </a-col>
+            </a-row>
+            <a-row>
+              <a-col>
+                <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset">重置</a-button>
+                <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery" style="margin-left: 8px">查询</a-button>
+              </a-col>
             </a-row>
           </a-form>
           <!--引用表格-->
