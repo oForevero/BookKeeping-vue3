@@ -14,24 +14,51 @@
             <a-row :gutter="24">
               <a-col :span="5">
                 <a-form-item label="商品名称">
-                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                  <j-input v-model:value="queryParam.name" placeholder="请输入商品名" ></j-input>
                 </a-form-item>
               </a-col>
               <a-col :span="5">
-                <a-form-item label="商品名称">
-                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                <a-form-item label="供货商家">
+                  <a-select
+                    v-model:value="queryParam.collaboratorId"
+                    placeholder="请选择供货商"
+                    allowClear
+                    showSearch
+                    optionFilterProp="label"
+                    @popupScroll="handlePopupScroll"
+                    @search="handleSearch"
+                  >
+                    <template v-for="item in collaboratorData" :key="item.id">
+                      <a-select-option :value="item.id" :label="item.companyName">{{item.companyName}}</a-select-option>
+                    </template>
+                  </a-select>
                 </a-form-item>
               </a-col>
               <a-col :span="5">
-                <a-form-item label="商品名称">
-                  <a-input v-model:value="queryParam.name" placeholder="请输入商品名" ></a-input>
+                <a-form-item label="供货商家">
+                  <a-select
+                    v-model:value="queryParam.brandId"
+                    placeholder="请选择品牌"
+                    allowClear
+                    showSearch
+                    optionFilterProp="label"
+                  >
+                    <template v-for="item in brandData" :key="item.id">
+                      <a-select-option :value="item.id" :label="item.name">{{item.name}}</a-select-option>
+                    </template>
+                  </a-select>
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row>
-              <a-col>
-                <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset">重置</a-button>
-                <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery" style="margin-left: 8px">查询</a-button>
+
+              <a-col :span="5">
+                <a-form-item label="存放区域">
+                  <j-dict-select-tag v-model:value="queryParam.location" stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
+                </a-form-item>
+              </a-col>
+              <!--              查询条件-->
+              <a-col :span="4">
+                <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery">查询</a-button>
+                <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset" style="margin-left: 8px">重置</a-button>
               </a-col>
             </a-row>
           </a-form>
@@ -90,18 +117,29 @@
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { columns } from './BkProduct.data';
-  import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkProduct.api';
+  import {
+    list,
+    deleteOne,
+    batchDelete,
+    getImportUrl,
+    getExportUrl,
+    listCollaborator
+  } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
   import BkProductForm from "./components/BkProductForm.vue"
-  import {treeData} from "./BkProduct.data";
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
   import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
+  import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
+  import {treeData,brandData} from "./BkProduct.data";
+  import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
   const modifyModal = ref();
+  const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
+  const collaboratorData = ref<any>(listCollaborator(1, '', null).then(res=>{collaboratorData.value = res;}));
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -259,10 +297,49 @@
   }
 
   /**
+   * 异步下拉公司事件
+   */
+  async function handlePopupScroll(e) {
+    const { target } = e;
+    const scrollHeight = target.scrollHeight - target.scrollTop;
+    const clientHeight = target.clientHeight;
+    // 下拉框不下拉的时候
+    if (scrollHeight === 0 && clientHeight === 0) {
+      collaboratorParam.currentPage.value = 1;
+      console.log(collaboratorParam.currentPage.value);
+    } else {
+      // 当下拉框滚动条到达底部的时候
+      if (scrollHeight < clientHeight + 5) {
+        collaboratorParam.currentPage.value += 1;
+        try {
+          const res = await listCollaborator(collaboratorParam.currentPage.value, collaboratorParam.name, collaboratorParam.scale);
+          // 将新数据追加到数组
+          collaboratorData.value = [...collaboratorData.value, ...res];
+
+          console.log(collaboratorData.value);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+  }
+
+  /**
+   * 查询时刷新数据
+   */
+  function handleSearch(){
+    listCollaborator(collaboratorParam.currentPage, collaboratorParam.name, collaboratorParam.scale).then(res=>{
+      console.log(res)
+    }).catch(e=>{
+      console.log(e);
+    })
+  }
+
+  /**
    * 查询
    */
   function searchQuery() {
-    reload();
+    reload(queryParam.value);
   }
 
   /**

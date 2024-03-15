@@ -149,9 +149,6 @@ const title = ref<string>('新增');
 /**
  * 异步下拉公司事件
  */
-/**
- * 异步下拉公司事件
- */
 async function handlePopupScroll(e) {
   const { target } = e;
   const scrollHeight = target.scrollHeight - target.scrollTop;
