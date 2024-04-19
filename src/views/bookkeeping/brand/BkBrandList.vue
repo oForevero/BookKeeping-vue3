@@ -4,6 +4,15 @@
     <div class="jeecg-basic-table-form-container">
       <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-row :gutter="24">
+          <a-col :span="5">
+            <a-form-item label="品牌名称">
+              <j-input v-model:value="queryParam.name" placeholder="请输入商品名" ></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="4">
+            <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery">查询</a-button>
+            <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset" style="margin-left: 8px">重置</a-button>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -58,6 +67,7 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkBrand.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkBrandModal from './components/BkBrandModal.vue'
+  import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
@@ -176,7 +186,7 @@
    * 查询
    */
   function searchQuery() {
-    reload();
+    reload(queryParam.value);
   }
 
   /**

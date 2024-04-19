@@ -3,9 +3,9 @@
     <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
       <a-row>
         <a-col :span="24">
-          <a-form-item label="商品类型" v-bind="validateInfos.relationId">
+          <a-form-item label="父商品类型" v-bind="validateInfos.parentRelationId">
             <a-tree-select
-              v-model:value="formData.relationId"
+              v-model:value="formData.parentRelationId"
               show-search
               style="width: 100%"
               :dropdown-style="{ maxHeight: '400px', overflow: 'auto' }"
@@ -23,53 +23,21 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="商品名称" v-bind="validateInfos.name">
-            <a-input v-model:value="formData.name" placeholder="请输入商品名" ></a-input>
+          <a-form-item label="商品类型名称" v-bind="validateInfos.relationName">
+            <a-input v-model:value="formData.relationName" placeholder="请输入商品名" ></a-input>
           </a-form-item>
         </a-col>
-        <a-col>
-          <a-form-item label="商品图片" v-bind="validateInfos.productImg">
-            <j-image-upload v-model:value=formData.productImg text="上传" :multiple="false" :bizPath="'product'"/>
+<!--        <a-col :span="24">
+          <a-form-item label="价格倍率" v-bind="validateInfos.price">
+            <a-input-number v-model:value="formData.price" placeholder="请输入价格倍率" style="width: 100%" />
           </a-form-item>
-        </a-col>
+        </a-col>-->
         <a-col :span="24">
-          <a-form-item label="建议零售价" v-bind="validateInfos.price">
-            <a-input-number v-model:value="formData.price" placeholder="建议零售价" style="width: 100%" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="24">
-          <a-form-item label="计量单位" v-bind="validateInfos.module">
-            <j-dict-select-tag v-model:value="formData.module" placeholder="请选择计量单位" dictCode="product_count"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="24">
-          <a-form-item label="商品数量" v-bind="validateInfos.amount">
-            <a-input-number v-model:value="formData.amount" placeholder="请输入商品数量" style="width: 100%" />
-          </a-form-item>
-        </a-col>
-        <a-col :span="24">
-          <a-form-item label="商品备注" v-bind="validateInfos.remark">
+          <a-form-item label="类型备注" v-bind="validateInfos.relationRemark">
             <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品备注" />
           </a-form-item>
         </a-col>
-        <a-col :span="24">
-          <a-form-item label="供货商家" v-bind="validateInfos.collaboratorId">
-            <a-select
-              v-model:value="formData.collaboratorId"
-              placeholder="请选择供货商"
-              allowClear
-              showSearch
-              optionFilterProp="label"
-              @popupScroll="handlePopupScroll"
-              @search="handleSearch"
-            >
-              <template v-for="item in collaboratorData" :key="item.id">
-                <a-select-option :value="item.id" :label="item.companyName">{{item.companyName}}</a-select-option>
-              </template>
-            </a-select>
-          </a-form-item>
-        </a-col>
-        <a-col :span="24">
+<!--        <a-col :span="24">
           <a-form-item label="商品品牌" v-bind="validateInfos.brandId">
             <a-select
               v-model:value="formData.brandId"
@@ -83,28 +51,19 @@
               </template>
             </a-select>
           </a-form-item>
-        </a-col>
-        <a-col :span="24">
-          <a-form-item label="存放区域" v-bind="validateInfos.location">
-            <j-dict-select-tag v-model:value="formData.location" stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
-          </a-form-item>
-        </a-col>
+        </a-col>-->
       </a-row>
     </a-form>
   </a-modal>
 </template>
 
-<script lang="ts" setup name="bkProductForm">
+<script lang="ts" setup name="bkProductRelationForm">
 import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
-import { defHttp } from '/@/utils/http/axios';
-import {treeData,brandData} from "../BkProduct.data";
 import { useMessage } from '/@/hooks/web/useMessage';
 import { getValueType } from '/@/utils';
 import { saveOrUpdate, listCollaborator } from '../BkProduct.api';
 import { Form } from 'ant-design-vue';
-import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
-import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";
-
+import {treeData} from "../BkProduct.data";
 const props = defineProps({
   formDisabled: { type: Boolean, default: false },
   formData: { type: Object, default: ()=>{} },
@@ -115,16 +74,10 @@ const useForm = Form.useForm;
 const emit = defineEmits(['success']);
 const formData = reactive<Record<string, any>>({
   id: '',
-  relationId: undefined,
-  name: '',
-  price: undefined,
-  module: '',
-  amount: undefined,
-  remark: '',
-  collaboratorId: undefined,
-  productImg: undefined,
+  parentRelationId: undefined,
+  relationName: '',
+  relationRemark: '',
   brandId: undefined,
-  location: 0,
 });
 const collaboratorData = ref<any>([]);
 const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
@@ -134,12 +87,8 @@ const wrapperCol = ref<any>({ xs: { span: 24 }, sm: { span: 16 } });
 const confirmLoading = ref<boolean>(false);
 //表单验证
 const validatorRules = {
-  relationId: [{ required: true, message: '请选择商品类型!'},],
-  name: [{ required: true, message: '请输入商品名!'},],
-  price: [{ required: true, message: '请输入商品单价!'},],
-  amount: [{ required: true, message: '请输入商品数量!'},],
-  collaboratorId: [{ required: true, message: '请选择供货商!'}],
-  brandId: [{ required: true, message: '请选择品牌!'}],
+  parentRelationId: [],
+  relationName: [{ required: true, message: '请输入商品类型名称!'},],
 };
 const { resetFields, validate, validateInfos } = useForm(formData, validatorRules, { immediate: true });
 const width = ref<number>(800);
@@ -147,48 +96,12 @@ const visible = ref<boolean>(false);
 const title = ref<string>('新增');
 
 /**
- * 异步下拉公司事件
- */
-async function handlePopupScroll(e) {
-  const { target } = e;
-  const scrollHeight = target.scrollHeight - target.scrollTop;
-  const clientHeight = target.clientHeight;
-  // 下拉框不下拉的时候
-  if (scrollHeight === 0 && clientHeight === 0) {
-    collaboratorParam.currentPage.value = 1;
-    console.log(collaboratorParam.currentPage.value);
-  } else {
-    // 当下拉框滚动条到达底部的时候
-    if (scrollHeight < clientHeight + 5) {
-      collaboratorParam.currentPage.value += 1;
-      try {
-        const res = await listCollaborator(collaboratorParam.currentPage.value, collaboratorParam.name, collaboratorParam.scale);
-        // 将新数据追加到数组
-        collaboratorData.value = [...collaboratorData.value, ...res];
-
-        console.log(collaboratorData.value);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-}
-
-/**
- * 查询时刷新数据
- */
-function handleSearch(){
-  listCollaborator(collaboratorParam.currentPage, collaboratorParam.name, collaboratorParam.scale).then(res=>{
-    console.log(res)
-  }).catch(e=>{
-    console.log(e);
-  })
-}
-
-/**
  * 新增
  */
-function add() {
+function add(item) {
+  console.log(item.id)
+  formData.parentRelationId = item.id
+  console.log(formData.parentRelationId)
   title.value = "新增"
   visible.value = true;
   edit({});

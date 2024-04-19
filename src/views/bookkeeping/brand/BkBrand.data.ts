@@ -3,7 +3,7 @@ import {FormSchema} from '/@/components/Table';
 //列表数据
 export const columns: BasicColumn[] = [
   {
-    title: '品牌名',
+    title: '品牌名称',
     align: "center",
     dataIndex: 'name'
   },

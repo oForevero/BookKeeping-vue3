@@ -112,11 +112,12 @@
     <!-- 表单区域 -->
     <BkProductModal ref="detailModal" @success="handleSuccess"></BkProductModal>
     <BkProductForm ref="modifyModal" @success="handleSuccess"></BkProductForm>
+    <BkProductRelationForm ref="relationModal" @success="handleSuccess"></BkProductRelationForm>
   </div>
 </template>
 
 <script lang="ts" name="bkProductList" setup>
-  import { ref, reactive } from 'vue';
+import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import { columns } from './BkProduct.data';
@@ -126,21 +127,25 @@
     batchDelete,
     getImportUrl,
     getExportUrl,
-    listCollaborator
+    listCollaborator,
+    listBrand,
+    relationListTree
   } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
-  import BkProductForm from "./components/BkProductForm.vue"
+  import BkProductForm from "./components/BkProductForm.vue";
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
   import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
   import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
-  import {treeData,brandData} from "./BkProduct.data";
+  import {treeData,brandData,fetchData} from "./BkProduct.data";
   import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
+  import BkProductRelationForm from "./components/BkProductRelationForm.vue";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
   const modifyModal = ref();
+  const relationModal = ref();
   const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
   const collaboratorData = ref<any>(listCollaborator(1, '', null).then(res=>{collaboratorData.value = res;}));
   //注册table数据
@@ -179,6 +184,13 @@
   });
 
   /**
+   * 加载方法
+   */
+  onMounted(()=>{
+    fetchData()
+  })
+
+  /**
    * 左侧树选中事件
    * @param keys
    */
@@ -205,14 +217,15 @@
       {
         label: '新增',
         handler: () => {
-          console.log('点击了新增', node);
+          console.log(node)
+          relationModal.value.add(node);
         },
         icon: 'bi:plus',
       },
       {
         label: '修改',
         handler: () => {
-          console.log('点击了修改', node);
+          relationModal.value.edit(node);
         },
         icon: 'bi:edit',
       },

@@ -76,8 +76,16 @@ export const columns: BasicColumn[] = [
 /**
  * 首页所需参数
  */
-export const treeData: TreeItem[] = await relationListTree();
-export const brandData = await listBrand(1);
+export let treeData: TreeItem[] = await relationListTree();
+export let brandData: []=await listBrand(1);
+
+/**
+ * mounted 时赋值树和brand参数
+ */
+export async function fetchData() {
+  treeData = await relationListTree();
+  brandData = await listBrand(1);
+}
 
 //查询数据
 export const searchFormSchema: FormSchema[] = [

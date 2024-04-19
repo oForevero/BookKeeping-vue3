@@ -3,7 +3,7 @@
     <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
       <a-row>
         <a-col :span="24">
-          <a-form-item label="品牌名" v-bind="validateInfos.name">
+          <a-form-item label="品牌名称" v-bind="validateInfos.name">
             <a-input v-model:value="formData.name" placeholder="请输入品牌名" :disabled="disabled"></a-input>
           </a-form-item>
         </a-col>
@@ -24,7 +24,7 @@
   import { getValueType } from '/@/utils';
   import { saveOrUpdate } from '../BkBrand.api';
   import { Form } from 'ant-design-vue';
-  
+
   const props = defineProps({
     formDisabled: { type: Boolean, default: false },
     formData: { type: Object, default: ()=>{} },
@@ -35,8 +35,8 @@
   const emit = defineEmits(['register', 'ok']);
   const formData = reactive<Record<string, any>>({
     id: '',
-    name: '',   
-    remark: '',   
+    name: '',
+    remark: '',
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -60,7 +60,7 @@
     return props.formDisabled;
   });
 
-  
+
   /**
    * 新增
    */
