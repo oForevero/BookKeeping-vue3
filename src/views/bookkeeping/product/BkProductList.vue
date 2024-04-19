@@ -64,6 +64,9 @@
           </a-form>
           <!--引用表格-->
           <BasicTable @register="registerTable" :rowSelection="rowSelection">
+            <template #drillDetails="{text, record}">
+              <a @click="handleDetail(record)">{{text}}</a>
+            </template>
             <!--插槽:table标题-->
             <template #tableTitle>
               <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>

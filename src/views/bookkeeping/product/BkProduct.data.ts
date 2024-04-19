@@ -20,7 +20,7 @@ export const columns: BasicColumn[] = [
     title: '名称',
     align:"center",
     dataIndex: 'name',
-    width: 200,
+    slots: {customRender: 'drillDetails'}
   },
   {
     title: '建议零售价',
