@@ -217,15 +217,23 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
       {
         label: '新增',
         handler: () => {
-          console.log(node)
-          relationModal.value.add(node);
+          let obj = {
+            parentRelationId: node.id
+          }
+          relationModal.value.add(obj);
         },
         icon: 'bi:plus',
       },
       {
         label: '修改',
         handler: () => {
-          relationModal.value.edit(node);
+          console.log(node.relationName)
+          console.log(node)
+          let obj = {
+            parentRelationId: node.id,
+            relationName: node.relationName
+          }
+          relationModal.value.edit(obj);
         },
         icon: 'bi:edit',
       },

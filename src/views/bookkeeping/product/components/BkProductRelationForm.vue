@@ -3,7 +3,7 @@
     <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
       <a-row>
         <a-col :span="24">
-          <a-form-item label="父商品类型" v-bind="validateInfos.parentRelationId">
+          <a-form-item label="上级商品类型" v-bind="validateInfos.parentRelationId">
             <a-tree-select
               v-model:value="formData.parentRelationId"
               show-search
@@ -15,7 +15,7 @@
               :tree-data="treeData"
               :field-names="{
                 children: 'children',
-                label: 'relationName',
+                label: 'relationNames',
                 value: 'id',
               }"
               tree-node-filter-prop="name"
@@ -24,7 +24,7 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="商品类型名称" v-bind="validateInfos.relationName">
-            <a-input v-model:value="formData.relationName" placeholder="请输入商品名" ></a-input>
+            <a-input v-model:value="formData.relationName" placeholder="请输入商品类型名称名" ></a-input>
           </a-form-item>
         </a-col>
 <!--        <a-col :span="24">
@@ -34,7 +34,7 @@
         </a-col>-->
         <a-col :span="24">
           <a-form-item label="类型备注" v-bind="validateInfos.relationRemark">
-            <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品备注" />
+            <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品类型备注" />
           </a-form-item>
         </a-col>
 <!--        <a-col :span="24">
@@ -87,7 +87,7 @@ const wrapperCol = ref<any>({ xs: { span: 24 }, sm: { span: 16 } });
 const confirmLoading = ref<boolean>(false);
 //表单验证
 const validatorRules = {
-  parentRelationId: [],
+  parentRelationId: [{required: true, message: '请选择父商品类型！'}],
   relationName: [{ required: true, message: '请输入商品类型名称!'},],
 };
 const { resetFields, validate, validateInfos } = useForm(formData, validatorRules, { immediate: true });
@@ -99,12 +99,9 @@ const title = ref<string>('新增');
  * 新增
  */
 function add(item) {
-  console.log(item.id)
-  formData.parentRelationId = item.id
-  console.log(formData.parentRelationId)
   title.value = "新增"
   visible.value = true;
-  edit({});
+  edit({parentRelationId: item.parentRelationId});
 }
 
 /**
@@ -124,6 +121,7 @@ function edit(record) {
       collaboratorData.value = res;
     })
     //赋值
+    console.log(record)
     Object.assign(formData, record);
   });
 }

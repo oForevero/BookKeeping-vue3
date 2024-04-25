@@ -141,7 +141,6 @@
       async function handleRightClick({ event, node }: Recordable) {
         const { rightMenuList: menuList = [], beforeRightClick } = props;
         let contextMenuOptions: CreateContextOptions = { event, items: [] };
-
         if (beforeRightClick && isFunction(beforeRightClick)) {
           let result = await beforeRightClick(node, event);
           if (Array.isArray(result)) {
