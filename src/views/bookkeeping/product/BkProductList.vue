@@ -4,7 +4,7 @@
       <a-col :span="4" style="height:100%">
         <BasicTree title="商品类型" toolbar search :treeData="treeData" :beforeRightClick="getRightMenuList"
                    :fieldNames="{children: 'children', title: 'relationName', key: 'id', value:'id'}"
-                   @select="onProductTypeSelect"
+                   @select="onProductTypeSelect" ref="tree"
                    :defaultExpandAll="true"/>
       </a-col>
       <a-col :span="20" style="height:100%">
@@ -110,17 +110,17 @@
       </a-col>
     </a-row>
     <!-- 表单区域 -->
-    <BkProductModal ref="detailModal" @success="handleSuccess"></BkProductModal>
+    <BkProductModal ref="detailModal"></BkProductModal>
     <BkProductForm ref="modifyModal" @success="handleSuccess"></BkProductForm>
-    <BkProductRelationForm ref="relationModal" @success="handleSuccess"></BkProductRelationForm>
+    <BkProductRelationForm ref="relationModal" @success="handleTreeSuccess"></BkProductRelationForm>
   </div>
 </template>
 
 <script lang="ts" name="bkProductList" setup>
-import {ref, reactive, onMounted, onBeforeMount} from 'vue';
+  import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import { columns } from './BkProduct.data';
+  import {columns, treeData, brandData, fetchTreeData, fetchBrandData} from './BkProduct.data';
   import {
     list,
     deleteOne,
@@ -128,7 +128,6 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
     getImportUrl,
     getExportUrl,
     listCollaborator,
-    listBrand,
     relationListTree
   } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
@@ -137,10 +136,11 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   import {BasicTree, ContextMenuItem} from "/@/components/Tree";
   import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
   import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
-  import {treeData,brandData,fetchData} from "./BkProduct.data";
   import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
   import BkProductRelationForm from "./components/BkProductRelationForm.vue";
-
+  import JUploadButton from "/@/components/Button/src/JUploadButton.vue";
+  import Icon from "/@/components/Icon/src/Icon.vue";
+  const tree = ref(null);
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
@@ -148,6 +148,7 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   const relationModal = ref();
   const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
   const collaboratorData = ref<any>(listCollaborator(1, '', null).then(res=>{collaboratorData.value = res;}));
+  const currentRelationId = ref<number>(1);
   //注册table数据
   const { prefixCls, tableContext, onExportXls, onImportXls } = useListPage({
     tableProps: {
@@ -187,15 +188,18 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
    * 加载方法
    */
   onMounted(()=>{
-    fetchData()
+    fetchTreeData()
+    fetchBrandData()
   })
 
   /**
    * 左侧树选中事件
    * @param keys
+   * @param e 事件
    */
   function onProductTypeSelect(keys, e){
     console.log(e.node);
+    currentRelationId.value = e.node.id;
     if(!e.node){
       queryParam.value.lft = '';
       queryParam.value.rgt = '';
@@ -211,8 +215,9 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   /**
    * 右键list按钮
    * @param node
+   * @param e event
    */
-  function getRightMenuList(node: any): ContextMenuItem[] {
+  function getRightMenuList(node: any, e: any): ContextMenuItem[] {
     return [
       {
         label: '新增',
@@ -227,11 +232,10 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
       {
         label: '修改',
         handler: () => {
-          console.log(node.relationName)
-          console.log(node)
           let obj = {
-            parentRelationId: node.id,
-            relationName: node.relationName
+            id: node.id,
+            parentRelationId: node.pid?node.pid:node.id,
+            relationName: e.target.innerText
           }
           relationModal.value.edit(obj);
         },
@@ -251,7 +255,7 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
    * 新增事件
    */
   function handleAdd() {
-    modifyModal.value.add();
+    modifyModal.value.add({relationId: currentRelationId.value});
   }
 
   /**
@@ -288,6 +292,12 @@ import {ref, reactive, onMounted, onBeforeMount} from 'vue';
   function handleSuccess() {
     selectedRowKeys.value = [];
     reload();
+  }
+
+  function handleTreeSuccess(key, record) {
+    selectedRowKeys.value = [];
+    //tree.value.updateNodeByKey(key, {children: record});
+    //fetchTreeData();
   }
 
   /**

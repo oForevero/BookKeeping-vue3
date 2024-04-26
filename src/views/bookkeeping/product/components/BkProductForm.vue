@@ -188,10 +188,10 @@ function handleSearch(){
 /**
  * 新增
  */
-function add() {
+function add(record) {
   title.value = "新增"
   visible.value = true;
-  edit({});
+  edit({relationId: record.relationId});
 }
 
 /**

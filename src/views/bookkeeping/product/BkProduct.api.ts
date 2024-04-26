@@ -10,8 +10,6 @@ enum Api {
   listCollaborator = "/bookkeeping/bkCollaborator/listPurchaseGroup",
   save='/bookkeeping/bkProduct/add',
   edit='/bookkeeping/bkProduct/edit',
-  saveRelation='/bookkeeping/bkProductRelation/add',
-  editRelation='/bookkeeping/bkProductRelation/add',
   deleteOne = '/bookkeeping/bkProduct/delete',
   deleteBatch = '/bookkeeping/bkProduct/deleteBatch',
   importExcel = '/bookkeeping/bkProduct/importExcel',
@@ -102,9 +100,4 @@ export const batchDelete = (params, handleSuccess) => {
 export const saveOrUpdate = (params, isUpdate) => {
   let url = isUpdate ? Api.edit : Api.save;
   return defHttp.post({ url: url, params }, { isTransformResponse: false });
-}
-
-export const saveOrUpdateProductRelation = (params, isUpdate) => {
-  let url = isUpdate ? Api.editRelation : Api.saveRelation;
-  return defHttp.post({url: url, params}, {isTransformResponse: false});
 }

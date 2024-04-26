@@ -15,7 +15,7 @@
               :tree-data="treeData"
               :field-names="{
                 children: 'children',
-                label: 'relationNames',
+                label: 'relationName',
                 value: 'id',
               }"
               tree-node-filter-prop="name"
@@ -61,7 +61,7 @@
 import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { getValueType } from '/@/utils';
-import { saveOrUpdate, listCollaborator } from '../BkProduct.api';
+import {saveOrUpdate} from '/@/views/bookkeeping/product_relation/BkProductRelation.api';
 import { Form } from 'ant-design-vue';
 import {treeData} from "../BkProduct.data";
 const props = defineProps({
@@ -116,12 +116,11 @@ function edit(record) {
     resetFields();
     //重设请求参数
     collaboratorParam.value = {name: '', types: '1, 2', currentPage: 1};
-    //设置treedata的最开始参数
-    listCollaborator(1, '', null).then(res=>{
+    //设置品牌
+    /*listCollaborator(1, '', null).then(res=>{
       collaboratorData.value = res;
-    })
+    })*/
     //赋值
-    console.log(record)
     Object.assign(formData, record);
   });
 }
@@ -162,7 +161,7 @@ async function submitForm() {
       if (res.success) {
         createMessage.success(res.message);
         visible.value = false;
-        emit('success');
+        emit('success', model.id, model);
       } else {
         createMessage.warning(res.message);
       }

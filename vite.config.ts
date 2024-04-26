@@ -61,6 +61,11 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
       proxy: createProxy(VITE_PROXY),
     },
     build: {
+      // TODO 禁用压缩和优化，打包不要使用如下配置！！！！
+      //minify: false,
+      //sourcemap: true,
+
+      //打包使用配置
       minify: 'esbuild',
       target: 'es2015',
       cssTarget: 'chrome80',

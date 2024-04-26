@@ -87,7 +87,6 @@
   }
 
   function showDetail(record){
-    console.log('Edit 方法被调用');
     visible.value = true;
     detailData.value = record;
   }

@@ -1,10 +1,7 @@
 import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
 import {
   listBrand,
-  listCollaborator,
   relationListTree
 } from "./BkProduct.api";
 import {TreeItem} from "/@/components/Tree";
@@ -82,8 +79,11 @@ export let brandData: []=await listBrand(1);
 /**
  * mounted 时赋值树和brand参数
  */
-export async function fetchData() {
+export async function fetchTreeData() {
   treeData = await relationListTree();
+}
+
+export async function fetchBrandData(){
   brandData = await listBrand(1);
 }
 
