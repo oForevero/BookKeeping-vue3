@@ -140,12 +140,12 @@
   import BkProductRelationForm from "./components/BkProductRelationForm.vue";
   import JUploadButton from "/@/components/Button/src/JUploadButton.vue";
   import Icon from "/@/components/Icon/src/Icon.vue";
-  const tree = ref(null);
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
   const modifyModal = ref();
   const relationModal = ref();
+  const tree = ref(null);
   const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
   const collaboratorData = ref<any>(listCollaborator(1, '', null).then(res=>{collaboratorData.value = res;}));
   const currentRelationId = ref<number>(1);
@@ -251,6 +251,13 @@
     ];
   }
 
+  /*function onContextMenuClick(treeKey: string, menuKey: string | number){
+    console.log(`treeKey: ${treeKey}, menuKey: ${menuKey}`);
+    switch (menuKey){
+
+    }
+  }*/
+
   /**
    * 新增事件
    */
@@ -296,8 +303,7 @@
 
   function handleTreeSuccess(key, record) {
     selectedRowKeys.value = [];
-    //tree.value.updateNodeByKey(key, {children: record});
-    //fetchTreeData();
+    fetchTreeData();
   }
 
   /**
