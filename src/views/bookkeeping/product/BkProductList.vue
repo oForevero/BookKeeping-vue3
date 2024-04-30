@@ -4,7 +4,7 @@
       <a-col :span="4" style="height:100%">
         <BasicTree title="商品类型" toolbar search :treeData="treeData" :beforeRightClick="getRightMenuList"
                    :fieldNames="{children: 'children', title: 'relationName', key: 'id', value:'id'}"
-                   @select="onProductTypeSelect" ref="tree"
+                   @select="onProductTypeSelect" ref="asyncTreeRef"
                    :defaultExpandAll="true"/>
       </a-col>
       <a-col :span="20" style="height:100%">
@@ -117,7 +117,7 @@
 </template>
 
 <script lang="ts" name="bkProductList" setup>
-  import {ref, reactive, onMounted, onBeforeMount} from 'vue';
+import {ref, reactive, onMounted, onBeforeMount, unref} from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import {columns, treeData, brandData, fetchTreeData, fetchBrandData} from './BkProduct.data';
@@ -133,7 +133,7 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
   import BkProductForm from "./components/BkProductForm.vue";
-  import {BasicTree, ContextMenuItem} from "/@/components/Tree";
+import {BasicTree, ContextMenuItem, TreeActionType} from "/@/components/Tree";
   import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
   import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
   import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
@@ -145,8 +145,8 @@
   const detailModal = ref();
   const modifyModal = ref();
   const relationModal = ref();
-  const tree = ref(null);
-  const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
+  const asyncTreeRef = ref<Nullable<TreeActionType>>(null);
+const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
   const collaboratorData = ref<any>(listCollaborator(1, '', null).then(res=>{collaboratorData.value = res;}));
   const currentRelationId = ref<number>(1);
   //注册table数据
@@ -192,6 +192,14 @@
     fetchBrandData()
   })
 
+  function getTree() {
+    const tree = unref(asyncTreeRef);
+    if (!tree) {
+      throw new Error('tree is null!');
+    }
+    return tree;
+  }
+
   /**
    * 左侧树选中事件
    * @param keys
@@ -223,7 +231,10 @@
         label: '新增',
         handler: () => {
           let obj = {
-            parentRelationId: node.id
+            parentRelationId: node.id,
+            lft: node.rgt-1,
+            rgt: node.rgt,
+            layer: node.layer+1
           }
           relationModal.value.add(obj);
         },
@@ -235,7 +246,10 @@
           let obj = {
             id: node.id,
             parentRelationId: node.pid?node.pid:node.id,
-            relationName: e.target.innerText
+            relationName: e.target.innerText,
+            lft: node.rgt-1,
+            rgt: node.rgt,
+            layer: node.layer+1
           }
           relationModal.value.edit(obj);
         },
@@ -303,6 +317,8 @@
 
   function handleTreeSuccess(key, record) {
     selectedRowKeys.value = [];
+    let tree = getTree();
+    tree.updateNodeByKey(key, record)
     fetchTreeData();
   }
 

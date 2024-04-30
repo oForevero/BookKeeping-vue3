@@ -101,7 +101,7 @@ const title = ref<string>('新增');
 function add(item) {
   title.value = "新增"
   visible.value = true;
-  edit({parentRelationId: item.parentRelationId});
+  edit(item);
 }
 
 /**
