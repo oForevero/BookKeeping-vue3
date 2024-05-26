@@ -6,6 +6,7 @@ const { createConfirm } = useMessage();
 enum Api {
   list = '/bookkeeping/bkProduct/list',
   listRelationTree = "/bookkeeping/bkProductRelation/listTree",
+  deleteRelationItem = "/bookkeeping/bkProductRelation/delete",
   listBrand = "/bookkeeping/bkBrand/list",
   listCollaborator = "/bookkeeping/bkCollaborator/listPurchaseGroup",
   save='/bookkeeping/bkProduct/add',
@@ -42,6 +43,16 @@ export const relationListTree = () =>
   });
 
 /**
+ * 左侧menu删除
+ */
+export const deleteRelationItem = (id, handleSuccess) =>
+  defHttp.delete({url: Api.deleteRelationItem+"?id="+id}).then((res) =>{
+    handleSuccess();
+    return res;
+  });
+
+
+/**
  * 品牌获取
  * @param pageNo
  */
@@ -60,6 +71,7 @@ export const listCollaborator = (pageNo, name, scale) =>
   defHttp.get({url: Api.listCollaborator, params: {pageNo:pageNo, name: name, types: "1,2", scale: scale}}).then((res)=>{
     return res.records;
   });
+
 
 /**
  * 删除单个
