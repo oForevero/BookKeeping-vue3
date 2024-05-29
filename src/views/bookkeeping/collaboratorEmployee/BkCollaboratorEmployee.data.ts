@@ -17,11 +17,16 @@ export const columns: BasicColumn[] = [
    {
     title: '工作状态',
     align:"center",
-    dataIndex: 'employeeStatus'
+    dataIndex: 'employeeStatus_dictText'
    },
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    label: '员工姓名',
+    field: 'employeeName',
+    component: 'JInput',
+  },
 ];
 //表单数据
 export const formSchema: FormSchema[] = [

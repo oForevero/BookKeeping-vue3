@@ -1,7 +1,7 @@
 <template>
   <a-modal :width="width" :visible="visible" v-bind="$attrs" :title="'详情'" :useWrapper="true" @cancel="handleCancel">
     <a-descriptions bordered>
-      <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName+'-'+detailData.name}}</a-descriptions-item>
+      <a-descriptions-item label="商品名称" :span="2">{{detailData.relationName?detailData.relationName+'-':''+detailData.name}}</a-descriptions-item>
       <a-descriptions-item label="计量单位">{{detailData.module}}</a-descriptions-item>
       <a-descriptions-item label="图片展示">
         <img width="110" height="90" alt="" :src="noImage" v-if="!detailData.productImg" style="margin:0 auto;"/>
