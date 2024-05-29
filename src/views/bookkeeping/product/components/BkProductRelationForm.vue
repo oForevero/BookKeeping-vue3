@@ -34,7 +34,7 @@
         </a-col>-->
         <a-col :span="24">
           <a-form-item label="类型备注" v-bind="validateInfos.relationRemark">
-            <a-textarea v-model:value="formData.remark" rows="4" placeholder="请输入商品类型备注" />
+            <a-textarea v-model:value="formData.remark" :rows="4" placeholder="请输入商品类型备注" />
           </a-form-item>
         </a-col>
 <!--        <a-col :span="24">
@@ -165,7 +165,7 @@ async function submitForm() {
         if(isUpdate.value){
           emit('edit', model.id, model);
         }else{
-          emit("add", model.id, model)
+          emit("add", model.parentRelationId, model)
         }
       } else {
         createMessage.warning(res.message);

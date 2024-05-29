@@ -134,7 +134,7 @@ import {ref, reactive, onMounted, onBeforeMount, unref} from 'vue';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
   import BkProductForm from "./components/BkProductForm.vue";
-import {BasicTree, ContextMenuItem, TreeActionType} from "/@/components/Tree";
+  import {BasicTree, ContextMenuItem, InsertNodeParams, TreeActionType} from "/@/components/Tree";
   import {getAreaTextByCode} from "../../../components/Form/src/utils/Area";
   import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
   import JInput from "/@/components/Form/src/jeecg/components/JInput.vue";
@@ -259,7 +259,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
       {
         label: '删除',
         handler: () => {
-          deleteRelationItem(node.id, removeTreeSuccess(node.id));
+          deleteRelationItem(node.id, removeTreeSuccess);
         },
         icon: 'bx:bxs-folder-open',
       },
@@ -324,7 +324,11 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
   function addTreeSuccess(key, record) {
     selectedRowKeys.value = [];
     let tree = getTree();
-    tree.updateNodeByKey(key,record);
+    let insertNodeParams = {
+      parentKey: key,
+      node: record
+    }
+    tree.insertNodeByKey(insertNodeParams);
     fetchTreeData();
   }
 

@@ -45,9 +45,9 @@ export const relationListTree = () =>
 /**
  * 左侧menu删除
  */
-export const deleteRelationItem = (id, handleSuccess) =>
+  export const deleteRelationItem = (id, hadledelete) =>
   defHttp.delete({url: Api.deleteRelationItem+"?id="+id}).then((res) =>{
-    handleSuccess();
+    hadledelete(id);
     return res;
   });
 
