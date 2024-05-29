@@ -71,7 +71,7 @@ const props = defineProps({
 });
 const formRef = ref();
 const useForm = Form.useForm;
-const emit = defineEmits(['success']);
+const emit = defineEmits(['add', 'edit']);
 const formData = reactive<Record<string, any>>({
   id: '',
   parentRelationId: undefined,
@@ -162,7 +162,11 @@ async function submitForm() {
       if (res.success) {
         createMessage.success(res.message);
         visible.value = false;
-        emit('success', model.id, model);
+        if(isUpdate.value){
+          emit('edit', model.id, model);
+        }else{
+          emit("add", model.id, model)
+        }
       } else {
         createMessage.warning(res.message);
       }

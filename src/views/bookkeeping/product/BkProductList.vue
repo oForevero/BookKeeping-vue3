@@ -112,7 +112,7 @@
     <!-- 表单区域 -->
     <BkProductModal ref="detailModal"></BkProductModal>
     <BkProductForm ref="modifyModal" @success="handleSuccess"></BkProductForm>
-    <BkProductRelationForm ref="relationModal" @success="handleTreeSuccess"></BkProductRelationForm>
+    <BkProductRelationForm ref="relationModal" @add="addTreeSuccess" @edit="editTreeSuccess"></BkProductRelationForm>
   </div>
 </template>
 
@@ -128,7 +128,8 @@ import {ref, reactive, onMounted, onBeforeMount, unref} from 'vue';
     getImportUrl,
     getExportUrl,
     listCollaborator,
-    relationListTree
+    relationListTree,
+    deleteRelationItem
   } from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
@@ -232,8 +233,8 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
         handler: () => {
           let obj = {
             parentRelationId: node.id,
-            lft: node.rgt-1,
-            rgt: node.rgt,
+            lft: node.rgt,
+            rgt: node.rgt+1,
             layer: node.layer+1
           }
           relationModal.value.add(obj);
@@ -258,7 +259,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
       {
         label: '删除',
         handler: () => {
-          console.log('点击了删除', node);
+          deleteRelationItem(node.id, removeTreeSuccess(node.id));
         },
         icon: 'bx:bxs-folder-open',
       },
@@ -315,10 +316,38 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
     reload();
   }
 
-  function handleTreeSuccess(key, record) {
+  /**
+   * 新增回调 TODO 待修复
+   * @param key
+   * @param record
+   */
+  function addTreeSuccess(key, record) {
+    selectedRowKeys.value = [];
+    let tree = getTree();
+    tree.updateNodeByKey(key,record);
+    fetchTreeData();
+  }
+
+  /**
+   * 修改回调
+   * @param key
+   * @param record
+   */
+  function editTreeSuccess(key, record) {
     selectedRowKeys.value = [];
     let tree = getTree();
     tree.updateNodeByKey(key, record)
+    fetchTreeData();
+  }
+
+  /**
+   * 删除回调
+   * @param key
+   */
+  function removeTreeSuccess(key){
+    selectedRowKeys.value = [];
+    let tree = getTree();
+    tree.deleteNodeByKey(key)
     fetchTreeData();
   }
 
