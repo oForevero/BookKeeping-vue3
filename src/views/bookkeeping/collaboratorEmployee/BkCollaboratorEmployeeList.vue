@@ -29,6 +29,9 @@
       <template #htmlSlot="{text}">
          <div v-html="text"></div>
       </template>
+     <template #wordStatus="{text}">
+       <a-tag :color="text===0?'green':'red'">{{text}}</a-tag>
+     </template>
       <!--省市区字段回显插槽-->
       <template #pcaSlot="{text}">
          {{ getAreaTextByCode(text) }}
@@ -39,14 +42,13 @@
       </template>
     </BasicTable>
     <!-- 表单区域 -->
-    <BkCollaboratorEmployeeModal @register="registerModal" @success="handleSuccess"></BkCollaboratorEmployeeModal>
+    <BkCollaboratorEmployeeModal @success="handleSuccess" ref="employeeModal"></BkCollaboratorEmployeeModal>
   </div>
 </template>
 
 <script lang="ts" name="bookkeeping-bkCollaboratorEmployee" setup>
   import {ref, computed, unref} from 'vue';
   import {BasicTable, useTable, TableAction} from '/@/components/Table';
-  import {useModal} from '/@/components/Modal';
   import { useListPage } from '/@/hooks/system/useListPage'
   import BkCollaboratorEmployeeModal from './components/BkCollaboratorEmployeeModal.vue'
   import {columns, searchFormSchema} from './BkCollaboratorEmployee.data';
@@ -54,7 +56,7 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   const checkedKeys = ref<Array<string | number>>([]);
   //注册model
-  const [registerModal, {openModal}] = useModal();
+  const employeeModal = ref();
   //注册table数据
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
       tableProps:{
@@ -93,30 +95,33 @@
     * 新增事件
     */
   function handleAdd() {
-     openModal(true, {
+     employeeModal.value.add(true, {
        isUpdate: false,
        showFooter: true,
      });
+     employeeModal.value.disableSubmit = false;
   }
    /**
     * 编辑事件
     */
   function handleEdit(record: Recordable) {
-     openModal(true, {
+     employeeModal.value.edit({
        record,
        isUpdate: true,
        showFooter: true,
      });
+     employeeModal.value.disableSubmit = false;
    }
    /**
     * 详情
    */
   function handleDetail(record: Recordable) {
-     openModal(true, {
+     employeeModal.value.edit({
        record,
        isUpdate: true,
        showFooter: false,
      });
+     employeeModal.value.disableSubmit = true;
    }
    /**
     * 删除事件

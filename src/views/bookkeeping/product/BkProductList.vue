@@ -52,7 +52,7 @@
 
               <a-col :span="5">
                 <a-form-item label="存放区域">
-                  <j-dict-select-tag v-model:value="queryParam.location" stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
+                  <j-dict-select-tag v-model:value="queryParam.location" :stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
                 </a-form-item>
               </a-col>
               <!--              查询条件-->

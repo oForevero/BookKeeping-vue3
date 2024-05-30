@@ -86,7 +86,7 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="存放区域" v-bind="validateInfos.location">
-            <j-dict-select-tag v-model:value="formData.location" stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
+            <j-dict-select-tag v-model:value="formData.location" :stringToNumber="true" placeholder="请选择存放区域" dictCode="base_location"/>
           </a-form-item>
         </a-col>
       </a-row>
