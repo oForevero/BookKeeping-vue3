@@ -124,14 +124,6 @@
   }
 
   /**
-   * 详情
-   */
-  function handleDetail(record: Recordable) {
-    registerModal.value.disableSubmit = true;
-    registerModal.value.edit(record);
-  }
-
-  /**
    * 删除事件
    */
   async function handleDelete(record) {
@@ -168,11 +160,7 @@
    * 下拉操作栏
    */
   function getDropDownAction(record) {
-    return [
-      {
-        label: '详情',
-        onClick: handleDetail.bind(null, record),
-      }, {
+    return [ {
         label: '删除',
         popConfirm: {
           title: '是否确认删除',

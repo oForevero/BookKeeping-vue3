@@ -9,7 +9,7 @@
   import BkBrandForm from './BkBrandForm.vue'
   
   const title = ref<string>('');
-  const width = ref<number>(800);
+  const width = ref<number>(1280);
   const visible = ref<boolean>(false);
   const disableSubmit = ref<boolean>(false);
   const registerForm = ref();

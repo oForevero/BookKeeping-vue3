@@ -11,11 +11,6 @@ export const columns: BasicColumn[] = [
     title: '品牌备注',
     align: "center",
     dataIndex: 'remark'
-  },
-  {
-    title: '品牌图片',
-    align: "center",
-    dataIndex: 'imageUrl'
   }
 ];
 
@@ -47,8 +42,4 @@ export const formSchema: FormSchema[] = [
     component: 'Input',
     show: false,
   },
-  {
-    label: '品牌图片',
-    field: 'imageUrl',
-  }
 ];

@@ -254,7 +254,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
           }
           relationModal.value.edit(obj);
         },
-        icon: 'bi:edit',
+        icon: 'ant-design:edit-outlined',
       },
       {
         label: '删除',

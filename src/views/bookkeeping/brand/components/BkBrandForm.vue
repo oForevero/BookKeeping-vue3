@@ -24,6 +24,7 @@
   import { getValueType } from '/@/utils';
   import { saveOrUpdate } from '../BkBrand.api';
   import { Form } from 'ant-design-vue';
+  import JImageUpload from "/@/components/Form/src/jeecg/components/JImageUpload.vue";
 
   const props = defineProps({
     formDisabled: { type: Boolean, default: false },
@@ -37,6 +38,7 @@
     id: '',
     name: '',
     remark: '',
+    imageUrl: '',
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });

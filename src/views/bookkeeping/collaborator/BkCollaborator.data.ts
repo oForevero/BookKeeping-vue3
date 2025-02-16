@@ -17,7 +17,8 @@ export const columns: BasicColumn[] = [
   {
     title: '合作状态',
     align: "center",
-    dataIndex: 'collaboratorStatus_dictText'
+    dataIndex: 'collaboratorStatus_dictText',
+    slots: { customRender: 'collaboratorStatus' }
   },
   {
     title: '商户类型',

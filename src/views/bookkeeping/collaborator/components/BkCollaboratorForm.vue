@@ -3,28 +3,28 @@
     <a-form ref="formRef" class="antd-modal-form" :labelCol="labelCol" :wrapperCol="wrapperCol">
       <a-row>
         <a-col :span="24">
-          <a-form-item label="厂商/个体 公司名称" v-bind="validateInfos.companyName">
-            <a-input v-model:value="formData.companyName" placeholder="请输入厂商/个体 公司名称" :disabled="disabled"></a-input>
+          <a-form-item label="合作方名称" v-bind="validateInfos.companyName">
+            <a-input v-model:value="formData.companyName" placeholder="请输入合作方名称" :disabled="disabled"></a-input>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="厂商/个体 公司固话/手机号码" v-bind="validateInfos.companyTel">
-	          <a-input-number v-model:value="formData.companyTel" placeholder="请输入厂商/个体 公司固话/手机号码" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="联系方式" v-bind="validateInfos.companyTel">
+	          <a-input-number v-model:value="formData.companyTel" placeholder="请输入联系方式" style="width: 100%" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="是否还在合作，0为正常，1为不合作" v-bind="validateInfos.collaboratorStatus">
-	          <a-input-number v-model:value="formData.collaboratorStatus" placeholder="请输入是否还在合作，0为正常，1为不合作" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="合作状态" v-bind="validateInfos.collaboratorStatus">
+            <j-dict-select-tag dict-code="collaborator_status" placeholder="请选择合作状态" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="厂商/个体 默认员工id，当商户规模为厂家（2）时来添加员工作为采购/供货人" v-bind="validateInfos.employeeId">
-	          <a-input-number v-model:value="formData.employeeId" placeholder="请输入厂商/个体 默认员工id，当商户规模为厂家（2）时来添加员工作为采购/供货人" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="默认员工" v-bind="validateInfos.employeeId">
+	          <a-input-number v-model:value="formData.employeeId" placeholder="请选择默认员工" style="width: 100%" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）" v-bind="validateInfos.collaboratorType">
-	          <a-input-number v-model:value="formData.collaboratorType" placeholder="请输入商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="合作方类型" v-bind="validateInfos.collaboratorType">
+            <j-dict-select-tag dict-code="collaborator_scale" placeholder="请选择合作方类型类型" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -44,6 +44,7 @@
   import { getValueType } from '/@/utils';
   import { saveOrUpdate } from '../BkCollaborator.api';
   import { Form } from 'ant-design-vue';
+  import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
   
   const props = defineProps({
     formDisabled: { type: Boolean, default: false },
@@ -69,8 +70,8 @@
   //表单验证
   const validatorRules = {
     companyName: [{ required: true, message: '请输入厂商/个体 公司名称!'},],
-    companyTel: [{ required: true, message: '请输入厂商/个体 公司固话/手机号码!'},],
-    collaboratorStatus: [{ required: true, message: '请输入是否还在合作，0为正常，1为不合作!'},],
+    companyTel: [{ required: true, pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误'},],
+    collaboratorStatus: [{ required: true, message: '请选择合作状态'},],
     collaboratorType: [{ required: true, message: '请输入商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）!'},],
     collaboratorScale: [{ required: true, message: '请输入默认匿名账户为0（有且只有一个）个体为 1  厂商为 2!'},],
   };

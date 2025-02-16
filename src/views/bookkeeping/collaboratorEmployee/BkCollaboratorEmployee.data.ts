@@ -20,6 +20,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'employeeStatus_dictText',
     slots: {customRender: 'wordStatus'}
    },
+   {
+     title: '所属公司',
+     align:"center",
+     dataIndex: 'companyName',
+   }
 ];
 //查询数据
 export const searchFormSchema: FormSchema[] = [

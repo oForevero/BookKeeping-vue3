@@ -4,11 +4,28 @@
     <div class="jeecg-basic-table-form-container">
       <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-row :gutter="24">
+          <a-col :span="5">
+            <a-form-item label="合作方名称">
+              <a-input v-model:value="queryParam.employeeName" placeholder="请输入合作方名称"></a-input>
+            </a-form-item>
+          </a-col>
+          <a-col :span="5">
+            <a-form-item label="合作状态">
+              <j-dict-select-tag v-model:value="queryParam.collaboratorStatus" :stringToNumber="true" placeholder="请选择合作状态" dictCode="collaborator_status"/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="4">
+            <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery">查询</a-button>
+            <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset" style="margin-left: 8px">重置</a-button>
+          </a-col>
         </a-row>
       </a-form>
     </div>
     <!--引用表格-->
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
+      <template #collaboratorStatus="{text}">
+        <a-tag :color="text==0?'green':'red'">{{text}}</a-tag>
+      </template>
       <!--插槽:table标题-->
       <template #tableTitle>
         <a-button type="primary" @click="handleAdd" preIcon="ant-design:plus-outlined"> 新增</a-button>
@@ -36,10 +53,6 @@
       <template #htmlSlot="{text}">
         <div v-html="text"></div>
       </template>
-      <!--省市区字段回显插槽-->
-      <template #pcaSlot="{text}">
-        {{ getAreaTextByCode(text) }}
-      </template>
       <template #fileSlot="{text}">
         <span v-if="!text" style="font-size: 12px;font-style: italic;">无文件</span>
         <a-button v-else :ghost="true" type="primary" preIcon="ant-design:download-outlined" size="small" @click="downloadFile(text)">下载</a-button>
@@ -58,6 +71,7 @@
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkCollaborator.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkCollaboratorModal from './components/BkCollaboratorModal.vue'
+  import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
 
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
@@ -104,7 +118,7 @@
     registerModal.value.disableSubmit = false;
     registerModal.value.add();
   }
-  
+
   /**
    * 编辑事件
    */
