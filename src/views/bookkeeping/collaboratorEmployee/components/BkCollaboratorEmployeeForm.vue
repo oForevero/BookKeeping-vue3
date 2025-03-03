@@ -17,6 +17,11 @@
             <j-dict-select-tag dict-code="worker_status" v-model:value="formData.employeeStatus" :stringToNumber="true" :disabled="disabled" />
           </a-form-item>
         </a-col>
+        <a-col :span="24">
+          <a-form-item label="所属公司" v-bind="validateInfos.companyId">
+            <j-dict-select-tag dict-code="worker_status" v-model:value="formData.employeeStatus" :stringToNumber="true" :disabled="disabled" />
+          </a-form-item>
+        </a-col>
       </a-row>
     </a-form>
   </a-spin>

@@ -33,4 +33,9 @@ export const searchFormSchema: FormSchema[] = [
     field: 'employeeName',
     component: 'JInput',
   },
+  {
+    label: '所属公司',
+    field: 'companyName',
+    component: 'JInput'
+  }
 ];
