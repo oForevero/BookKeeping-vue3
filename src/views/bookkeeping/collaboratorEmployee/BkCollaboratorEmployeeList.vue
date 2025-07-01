@@ -63,6 +63,7 @@
            title: '供货商/客户_employee',
            api: list,
            columns,
+           showIndexColumn: true,
            canResize:false,
            formConfig: {
               //labelWidth: 120,

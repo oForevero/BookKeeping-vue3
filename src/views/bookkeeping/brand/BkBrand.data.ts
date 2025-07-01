@@ -16,6 +16,11 @@ export const columns: BasicColumn[] = [
 
 //查询数据
 export const searchFormSchema: FormSchema[] = [
+  {
+    field: 'name',
+    label: '品牌名称',
+    component: 'JInput',
+  },
 ];
 
 //表单数据

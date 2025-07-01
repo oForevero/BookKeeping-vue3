@@ -14,22 +14,17 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="合作状态" v-bind="validateInfos.collaboratorStatus">
-            <j-dict-select-tag dict-code="collaborator_status" placeholder="请选择合作状态" :disabled="disabled"/>
+            <j-dict-select-tag v-model:value="formData.collaboratorStatus" dict-code="collaborator_status" placeholder="请选择合作状态" :disabled="disabled" :value="'0'"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="默认员工" v-bind="validateInfos.employeeId">
-	          <a-input-number v-model:value="formData.employeeId" placeholder="请选择默认员工" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="商户类型" v-bind="validateInfos.collaboratorType">
+            <j-dict-select-tag v-model:value="formData.collaboratorType" dict-code="collaborator_type" placeholder="请选择商户类型" :disabled="disabled" :value="'0'"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label="合作方类型" v-bind="validateInfos.collaboratorType">
-            <j-dict-select-tag dict-code="collaborator_scale" placeholder="请选择合作方类型类型" :disabled="disabled"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="24">
-          <a-form-item label="默认匿名账户为0（有且只有一个）个体为 1  厂商为 2" v-bind="validateInfos.collaboratorScale">
-	          <a-input-number v-model:value="formData.collaboratorScale" placeholder="请输入默认匿名账户为0（有且只有一个）个体为 1  厂商为 2" style="width: 100%" :disabled="disabled"/>
+          <a-form-item label="合作方类型" v-bind="validateInfos.collaboratorScale">
+            <j-dict-select-tag v-model:value="formData.collaboratorScale" dict-code="collaborator_scale" placeholder="请选择合作方类型类型" :disabled="disabled" :value="'0'"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -72,8 +67,8 @@
     companyName: [{ required: true, message: '请输入厂商/个体 公司名称!'},],
     companyTel: [{ required: true, pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误'},],
     collaboratorStatus: [{ required: true, message: '请选择合作状态'},],
-    collaboratorType: [{ required: true, message: '请输入商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）!'},],
-    collaboratorScale: [{ required: true, message: '请输入默认匿名账户为0（有且只有一个）个体为 1  厂商为 2!'},],
+    collaboratorType: [{ required: true, message: '请选择商户类型'},],
+    collaboratorScale: [{ required: true, message: '请选择合作方类型'},],
   };
   const { resetFields, validate, validateInfos } = useForm(formData, validatorRules, { immediate: true });
 

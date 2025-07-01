@@ -156,6 +156,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
       title: 'bk_product',
       api: list,
       columns,
+      showIndexColumn: true,
       canResize:false,
       useSearchForm: false,
       actionColumn: {

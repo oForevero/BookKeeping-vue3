@@ -79,7 +79,7 @@ export const formSchema: FormSchema[] = [
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
       return [
-              { required: true, message: '请输入商户状态，0为只采购不销售（也就是客户），1为只销售不采购（也就是供货商），2为合作同行（既是客户又供货商）!'},
+              { required: true, message: '请输入商户状态'},
              ];
     },
   },

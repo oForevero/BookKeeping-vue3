@@ -1,21 +1,5 @@
 <template>
   <div>
-    <!--查询区域-->
-    <div class="jeecg-basic-table-form-container">
-      <a-form @keyup.enter.native="searchQuery" :model="queryParam" :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-row :gutter="24">
-          <a-col :span="5">
-            <a-form-item label="品牌名称">
-              <j-input v-model:value="queryParam.name" placeholder="请输入商品名" ></j-input>
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-button type="primary" preIcon="ant-design:search-outlined" @click="searchQuery">查询</a-button>
-            <a-button type="primary" preIcon="ant-design:reload-outlined" @click="searchReset" style="margin-left: 8px">重置</a-button>
-          </a-col>
-        </a-row>
-      </a-form>
-    </div>
     <!--引用表格-->
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
       <!--插槽:table标题-->
@@ -63,7 +47,7 @@
   import { ref, reactive } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
-  import { columns } from './BkBrand.data';
+  import { columns, searchFormSchema } from './BkBrand.data';
   import { list, deleteOne, batchDelete, getImportUrl, getExportUrl } from './BkBrand.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkBrandModal from './components/BkBrandModal.vue'
@@ -79,10 +63,21 @@
       api: list,
       columns,
       canResize:false,
-      useSearchForm: false,
+      showIndexColumn: true,
+      useSearchForm: true,
+      formConfig: {
+        //labelWidth: 120,
+        schemas: searchFormSchema,
+        autoSubmitOnEnter:true,
+        showAdvancedButton:true,
+        fieldMapToNumber: [
+        ],
+        fieldMapToTime: [
+        ],
+      },
       actionColumn: {
         width: 120,
-        fixed: 'right',
+        fixed:'right'
       },
       beforeFetch: (params) => {
         return Object.assign(params, queryParam.value);

@@ -81,11 +81,12 @@
     tableProps: {
       title: 'bk_collaborator',
       api: list,
+      showIndexColumn: true,
       columns,
       canResize:false,
       useSearchForm: false,
       actionColumn: {
-        width: 120,
+        width: 180,
         fixed: 'right',
       },
       beforeFetch: (params) => {
@@ -163,6 +164,12 @@
     return [
       {
         label: '编辑',
+        divider: true,
+        onClick: handleEdit.bind(null, record),
+      },
+      {
+        label: '员工管理',
+        divider: true,
         onClick: handleEdit.bind(null, record),
       },
     ];
@@ -176,7 +183,8 @@
       {
         label: '详情',
         onClick: handleDetail.bind(null, record),
-      }, {
+      },
+      {
         label: '删除',
         popConfirm: {
           title: '是否确认删除',

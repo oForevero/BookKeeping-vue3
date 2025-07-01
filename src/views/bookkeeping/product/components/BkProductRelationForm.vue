@@ -163,8 +163,10 @@ async function submitForm() {
         createMessage.success(res.message);
         visible.value = false;
         if(isUpdate.value){
-          emit('edit', model.id, model);
+          emit('edit', res.result.id, model);
         }else{
+          model.id = res.result.id;
+          console.log('item：', model);
           emit("add", model.parentRelationId, model)
         }
       } else {
