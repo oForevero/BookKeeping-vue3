@@ -6,7 +6,7 @@
         <a-row :gutter="24">
           <a-col :span="5">
             <a-form-item label="合作方名称">
-              <a-input v-model:value="queryParam.employeeName" placeholder="请输入合作方名称"></a-input>
+              <a-input v-model:value="queryParam.companyName" placeholder="请输入合作方名称"></a-input>
             </a-form-item>
           </a-col>
           <a-col :span="5">
@@ -23,8 +23,8 @@
     </div>
     <!--引用表格-->
     <BasicTable @register="registerTable" :rowSelection="rowSelection">
-      <template #collaboratorStatus="{text}">
-        <a-tag :color="text==0?'green':'red'">{{text}}</a-tag>
+      <template #collaboratorStatus="{text, record}">
+        <a-tag :color="record.collaboratorStatus===0?'green':'red'">{{text}}</a-tag>
       </template>
       <!--插槽:table标题-->
       <template #tableTitle>
@@ -60,6 +60,7 @@
     </BasicTable>
     <!-- 表单区域 -->
     <BkCollaboratorModal ref="registerModal" @success="handleSuccess"></BkCollaboratorModal>
+    <BkCollaboratorEmployeeModel ref="employeeRef" @success="handleSuccess"></BkCollaboratorEmployeeModel>
   </div>
 </template>
 
@@ -72,8 +73,12 @@
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkCollaboratorModal from './components/BkCollaboratorModal.vue'
   import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
+  import BkCollaboratorEmployeeModel
+    from "/@/views/bookkeeping/collaborator/components/BkCollaboratorEmployeeModel.vue";
+  import {Recordable} from "vite-plugin-mock";
 
   const queryParam = ref<any>({});
+  const employeeRef = ref();
   const toggleSearchStatus = ref<boolean>(false);
   const registerModal = ref();
   //注册table数据
@@ -127,6 +132,14 @@
     registerModal.value.disableSubmit = false;
     registerModal.value.edit(record);
   }
+
+  /**
+   * 修改员工
+   * @param record
+   */
+  function handleModifyEmployee(record: Recordable){
+    employeeRef.value.show(record);
+  }
    
   /**
    * 详情
@@ -170,7 +183,7 @@
       {
         label: '员工管理',
         divider: true,
-        onClick: handleEdit.bind(null, record),
+        onClick: handleModifyEmployee.bind(null, record),
       },
     ];
   }

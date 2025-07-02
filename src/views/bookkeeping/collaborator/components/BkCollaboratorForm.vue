@@ -14,17 +14,17 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="合作状态" v-bind="validateInfos.collaboratorStatus">
-            <j-dict-select-tag v-model:value="formData.collaboratorStatus" dict-code="collaborator_status" placeholder="请选择合作状态" :disabled="disabled" :value="'0'"/>
+            <j-dict-select-tag v-model:value="formData.collaboratorStatus" dict-code="collaborator_status" placeholder="请选择合作状态" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
           <a-form-item label="商户类型" v-bind="validateInfos.collaboratorType">
-            <j-dict-select-tag v-model:value="formData.collaboratorType" dict-code="collaborator_type" placeholder="请选择商户类型" :disabled="disabled" :value="'0'"/>
+            <j-dict-select-tag v-model:value="formData.collaboratorType" dict-code="collaborator_type" placeholder="请选择商户类型" :disabled="disabled"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
           <a-form-item label="合作方类型" v-bind="validateInfos.collaboratorScale">
-            <j-dict-select-tag v-model:value="formData.collaboratorScale" dict-code="collaborator_scale" placeholder="请选择合作方类型类型" :disabled="disabled" :value="'0'"/>
+            <j-dict-select-tag v-model:value="formData.collaboratorScale" dict-code="collaborator_scale" placeholder="请选择合作方类型类型" :disabled="disabled"/>
           </a-form-item>
         </a-col>
       </a-row>
@@ -53,10 +53,10 @@
     id: '',
     companyName: '',   
     companyTel: undefined,
-    collaboratorStatus: undefined,
+    collaboratorStatus: '0',
     employeeId: undefined,
-    collaboratorType: undefined,
-    collaboratorScale: undefined,
+    collaboratorType: '0',
+    collaboratorScale: '0',
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -98,6 +98,9 @@
   function edit(record) {
     nextTick(() => {
       resetFields();
+      record.collaboratorStatus = String(record.collaboratorStatus);
+      record.collaboratorType = String(record.collaboratorType);
+      record.collaboratorScale = String(record.collaboratorScale);
       //赋值
       Object.assign(formData, record);
     });
