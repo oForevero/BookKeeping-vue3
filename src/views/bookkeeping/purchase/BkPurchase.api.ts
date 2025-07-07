@@ -11,10 +11,9 @@ enum Api {
   deleteBatch = '/bookkeeping/bkPurchase/deleteBatch',
   importExcel = '/bookkeeping/bkPurchase/importExcel',
   exportXls = '/bookkeeping/bkPurchase/exportXls',
-  /**
-   * 获取进货客户api
-   */
-  listPurchaseGroup = '/bookkeeping/bkPurchase/listPurchaseGroup',
+
+  listProduct = '/bookkeeping/bkProduct/list',
+  listCollaborator = '/bookkeeping/bkCollaborator/list',
 }
 /**
  * 导出api
@@ -31,6 +30,14 @@ export const getImportUrl = Api.importExcel;
  */
 export const list = (params) =>
   defHttp.get({url: Api.list, params});
+
+/**
+ * 列表接口
+ * @param params
+ */
+export const listCollaborator = (params) => defHttp.get({ url: Api.listCollaborator, params });
+
+export const listProduct = (params) => defHttp.get({ url: Api.listProduct, params });
 
 export const listPurchaseGroup = (params) =>
   defHttp.get({url: Api.listPurchaseGroup, params});

@@ -3,7 +3,7 @@ import { useMessage } from "/@/hooks/web/useMessage";
 
 const { createConfirm } = useMessage();
 
-enum Api {
+export enum Api {
   list = '/bookkeeping/bkCollaborator/list',
   save='/bookkeeping/bkCollaborator/add',
   edit='/bookkeeping/bkCollaborator/edit',

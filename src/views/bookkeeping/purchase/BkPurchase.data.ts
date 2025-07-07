@@ -1,7 +1,8 @@
 import {BasicColumn} from '/@/components/Table';
 import {FormSchema} from '/@/components/Table';
-import { rules} from '/@/utils/helper/validator';
-import { render } from '/@/utils/common/renderUtils';
+import {listCollaborator} from "/@/views/bookkeeping/purchase/BkPurchase.api";
+import {listProduct} from "/@/views/bookkeeping/purchase/BkPurchase.api";
+
 //列表数据
 export const columns: BasicColumn[] = [
    {
@@ -13,17 +14,17 @@ export const columns: BasicColumn[] = [
     },
    },
    {
-    title: '进货客户id',
+    title: '供货商名称',
     align:"center",
     dataIndex: 'purchaseCollaborator'
    },
    {
-    title: '进货物品id',
+    title: '物品名称',
     align:"center",
     dataIndex: 'purchaseItem'
    },
    {
-    title: '进货个数',
+    title: '进货单位',
     align:"center",
     dataIndex: 'purchaseAmount'
    },
@@ -64,32 +65,45 @@ export const formSchema: FormSchema[] = [
      },
   },
   {
-    label: '进货客户id',
+    label: '供货商',
     field: 'purchaseCollaborator',
-    component: 'InputNumber',
+    component: 'ApiSelect',
+    componentProps: {
+      api: listCollaborator,
+      params: {types: '1,2'},
+      resultField: 'records',
+      labelField: 'companyName',
+      valueField: 'id',
+    },
     dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入进货客户id!'},
-          ];
-     },
+      return [
+        { required: true, message: '请选择供货商！'},
+      ];
+    },
   },
   {
-    label: '进货物品id',
+    label: '进货物品',
     field: 'purchaseItem',
-    component: 'InputNumber',
+    component: 'ApiTreeSelect',
+    componentProps: {
+      api: listProduct,
+      resultField: 'records',
+      labelField: 'name',
+      valueField: 'id',
+    },
     dynamicRules: ({model,schema}) => {
-          return [
-                 { required: true, message: '请输入进货物品id!'},
-          ];
-     },
+      return [
+        { required: true, message: '请选择进货物品！'},
+      ];
+    },
   },
   {
-    label: '进货个数，支持小数，缩进两位小数',
+    label: '进货数量',
     field: 'purchaseAmount',
     component: 'InputNumber',
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入进货个数，支持小数，缩进两位小数!'},
+                 { required: true, message: '请输入进货数量!'},
           ];
      },
   },
@@ -116,7 +130,10 @@ export const formSchema: FormSchema[] = [
   {
     label: '发票类型',
     field: 'purchaseReceipt',
-    component: 'InputNumber',
+    component: 'JDictSelectTag',
+    componentProps: {
+      dictCode: 'receipt',
+    },
   },
 	// TODO 主键隐藏字段，目前写死为ID
 	{

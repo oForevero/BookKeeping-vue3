@@ -39,7 +39,7 @@
                 return true;
             });
 
-            let formData = {};
+            let formData = {purchaseCollaborator: 0};
             const queryByIdUrl = '/bookkeeping/bkPurchase/queryById';
             async function initFormData(){
                 let params = {id: props.formData.dataId};
