@@ -19,6 +19,13 @@
           </a-button>
         </a-dropdown>
       </template>
+      <template #defaultEmployee="{ record }">
+        <a-tag v-show="record.id===parenRecord.employeeId" color="green">默认员工</a-tag>
+        <a-tag v-show="record.id!==parenRecord.employeeId" color="gray">普通员工</a-tag>
+      </template>
+      <template #action="{ record }">
+        <TableAction :actions="getTableAction(record)" :dropDownActions="getDropDownAction(record)"/>
+      </template>
     </BasicTable>
     <!-- 表单区域 -->
     <BkCollaboratorEmployeeModal @success="handleSuccess" ref="employeeModal"></BkCollaboratorEmployeeModal>
@@ -38,17 +45,21 @@
   import {
     searchFormSchema
   } from "/@/views/bookkeeping/collaboratorEmployee/BkCollaboratorEmployee.data";
-  import {BasicTable} from "/@/components/Table";
+  import {BasicTable, TableAction} from "/@/components/Table";
+  const confirmLoading = ref<boolean>(false);
+  const { createMessage } = useMessage();
   import BkCollaboratorEmployeeModal
     from "/@/views/bookkeeping/collaboratorEmployee/components/BkCollaboratorEmployeeModal.vue";
+  import {saveOrUpdate} from "/@/views/bookkeeping/collaborator/BkCollaborator.api";
+  import {useMessage} from "/@/hooks/web/useMessage";
   //注册model
   const employeeModal = ref();
   const title = ref<string>('');
-  const width = ref<number>(1200);
+  const width = ref<number>(1300);
   const visible = ref<boolean>(false);
   const searchInfo = {companyId:null, employeeName: null};
   const emit = defineEmits(['register', 'success']);
-  const record = ref();
+  const parenRecord = ref();
   const { prefixCls,tableContext,onExportXls,onImportXls } = useListPage({
     tableProps:{
       title: '',
@@ -66,7 +77,7 @@
         ],
       },
       actionColumn: {
-        width: 120,
+        width: 220,
         fixed:'right'
       },
     },
@@ -85,7 +96,7 @@
    * @param record
    */
   function show(record) {
-    record.value = record;
+    parenRecord.value = record;
     searchInfo.companyId = record.id;
     visible.value = true;
   }
@@ -101,7 +112,9 @@
    * 新增事件
    */
   function handleAdd() {
-    employeeModal.value.add(true, {
+    let record = {companyId: parenRecord.value.id};
+    employeeModal.value.add({
+      record,
       isUpdate: false,
       showFooter: true,
     });
@@ -147,6 +160,26 @@
   function handleSuccess() {
     (selectedRowKeys.value = []) && reload();
   }
+
+  /**
+   * 设为默认员工
+   * @param record
+   */
+  async function handleSetDefaultEmployee(record){
+    await saveOrUpdate({id: parenRecord.value.id, employeeId: record.id}, true)
+      .then((res) => {
+        if (res.success) {
+          parenRecord.value.employeeId = record.id;
+          createMessage.success(res.message);
+          reload();
+        } else {
+          createMessage.warning(res.message);
+        }
+      })
+      .finally(() => {
+        confirmLoading.value = false;
+      });
+  }
   /**
    * 操作栏
    */
@@ -155,7 +188,12 @@
       {
         label: '编辑',
         onClick: handleEdit.bind(null, record),
-      }
+      },
+      {
+        label: '设为默认员工',
+        onClick: handleSetDefaultEmployee.bind(null, record),
+        ifShow: record.id!==parenRecord.value.employeeId,
+      },
     ]
   }
   /**

@@ -53,10 +53,10 @@
     id: '',
     companyName: '',   
     companyTel: undefined,
-    collaboratorStatus: '0',
+    collaboratorStatus: undefined,
     employeeId: undefined,
-    collaboratorType: '0',
-    collaboratorScale: '0',
+    collaboratorType: undefined,
+    collaboratorScale: undefined,
   });
   const { createMessage } = useMessage();
   const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -89,7 +89,7 @@
    * 新增
    */
   function add() {
-    edit({});
+    edit({collaboratorStatus: '0', collaboratorType: '0', collaboratorScale: '0'});
   }
 
   /**

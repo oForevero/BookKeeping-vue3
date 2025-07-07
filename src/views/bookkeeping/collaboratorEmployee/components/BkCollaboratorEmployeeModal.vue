@@ -18,11 +18,11 @@ const emit = defineEmits(['register', 'success']);
 /**
  * 新增
  */
-function add() {
+function add(record) {
   title.value = '新增';
   visible.value = true;
   nextTick(() => {
-    registerForm.value.add();
+    registerForm.value.add(record);
   });
 }
 

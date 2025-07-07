@@ -21,6 +21,12 @@ export const columns: BasicColumn[] = [
     slots: {customRender: 'wordStatus'}
    },
    {
+    title: '是否为默认员工',
+    align: "center",
+    slots: { customRender: 'defaultEmployee' },
+    dataIndex: 'id',
+   },
+   {
      title: '所属公司',
      align:"center",
      dataIndex: 'companyName',

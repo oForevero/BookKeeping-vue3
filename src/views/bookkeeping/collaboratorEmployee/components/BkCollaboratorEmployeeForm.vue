@@ -17,11 +17,6 @@
             <j-dict-select-tag dict-code="worker_status" v-model:value="formData.employeeStatus" :stringToNumber="true" :disabled="disabled" />
           </a-form-item>
         </a-col>
-        <a-col :span="24">
-          <a-form-item label="所属公司" v-bind="validateInfos.companyId">
-            <j-dict-select-tag dict-code="worker_status" v-model:value="formData.employeeStatus" :stringToNumber="true" :disabled="disabled" />
-          </a-form-item>
-        </a-col>
       </a-row>
     </a-form>
   </a-spin>
@@ -48,7 +43,7 @@ const formData = reactive<Record<string, any>>({
   id: '',
   employeeName: '',
   employeePhone: undefined,
-  employeeStatus: undefined,
+  employeeStatus: 0,
 });
 const { createMessage } = useMessage();
 const labelCol = ref<any>({ xs: { span: 24 }, sm: { span: 5 } });
@@ -78,8 +73,8 @@ const showDetail = ref(false);
 /**
  * 新增
  */
-function add() {
-  edit({});
+function add(record) {
+  edit(record);
 }
 
 /**
