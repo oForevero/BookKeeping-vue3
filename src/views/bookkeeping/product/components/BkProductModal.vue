@@ -22,10 +22,10 @@
         {{detailData.location_dictText}}
       </a-descriptions-item>
       <a-descriptions-item label="最新进价">
-        <a-tag color="red">{{detailData.latestPurchasePrice}}￥</a-tag>
+        <a-tag color="red">{{detailData.latestPurchasePrice?detailData.latestPurchasePrice:'0'}}￥</a-tag>
       </a-descriptions-item>
       <a-descriptions-item label="平均进价">
-        <a-tag color="blue">{{detailData.avgPurchasePrice}}￥</a-tag>
+        <a-tag color="blue">{{detailData.avgPurchasePrice?detailData.avgPurchasePrice:'0'}}￥</a-tag>
       </a-descriptions-item>
       <a-descriptions-item label="备注信息" :span="3">
         <pre>

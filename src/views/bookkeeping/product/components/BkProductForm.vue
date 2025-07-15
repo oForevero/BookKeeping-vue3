@@ -29,7 +29,7 @@
         </a-col>
         <a-col>
           <a-form-item label="商品图片" v-bind="validateInfos.productImg">
-            <j-image-upload v-model:value=formData.productImg text="上传" :multiple="false" :bizPath="'product'"/>
+            <j-image-upload v-model:value=formData.productImg text="上传" :accept="'.jpg, .png, .jpeg'" :multiple="false" :bizPath="'product'"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">

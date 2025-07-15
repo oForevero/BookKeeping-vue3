@@ -48,6 +48,12 @@ export const columns: BasicColumn[] = [
     dataIndex: 'module'
   },
   {
+    title: '状态',
+    align: "center",
+    slots: { customRender: 'status'},
+    dataIndex: 'status',
+  },
+  {
     title: '备注',
     align:"center",
     dataIndex: 'remark',

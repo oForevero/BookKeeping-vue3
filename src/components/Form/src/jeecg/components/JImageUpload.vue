@@ -4,6 +4,7 @@
       :listType="listType"
       :multiple="multiple"
       :action="uploadUrl"
+      :accept="accept"
       :headers="headers"
       :data="{ biz: bizPath }"
       v-model:fileList="uploadFileList"
@@ -53,6 +54,11 @@
         type: String,
         required: false,
         default: 'picture-card',
+      },
+      accept: {
+        type: String,
+        required: false,
+        default: ''
       },
       //按钮文本
       text: {

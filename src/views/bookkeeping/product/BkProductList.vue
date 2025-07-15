@@ -98,6 +98,9 @@
             <template #pcaSlot="{text}">
               {{ getAreaTextByCode(text) }}
             </template>
+            <template #status="{text}">
+              <a-tag :color="text==='0'?'green':'red'">{{text==='0'?'在售':'停售'}}</a-tag>
+            </template>
             <template #price="{text}">
               <a-tag color="green">{{text}}￥</a-tag>
             </template>
@@ -121,16 +124,16 @@ import {ref, reactive, onMounted, onBeforeMount, unref} from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { useListPage } from '/@/hooks/system/useListPage';
   import {columns, treeData, brandData, fetchTreeData, fetchBrandData} from './BkProduct.data';
-  import {
-    list,
-    deleteOne,
-    batchDelete,
-    getImportUrl,
-    getExportUrl,
-    listCollaborator,
-    relationListTree,
-    deleteRelationItem
-  } from './BkProduct.api';
+import {
+  list,
+  deleteOne,
+  batchDelete,
+  getImportUrl,
+  getExportUrl,
+  listCollaborator,
+  relationListTree,
+  deleteRelationItem, saveOrUpdate
+} from './BkProduct.api';
   import { downloadFile } from '/@/utils/common/renderUtils';
   import BkProductModal from './components/BkProductModal.vue';
   import BkProductForm from "./components/BkProductForm.vue";
@@ -141,6 +144,7 @@ import {ref, reactive, onMounted, onBeforeMount, unref} from 'vue';
   import BkProductRelationForm from "./components/BkProductRelationForm.vue";
   import JUploadButton from "/@/components/Button/src/JUploadButton.vue";
   import Icon from "/@/components/Icon/src/Icon.vue";
+import {message} from "ant-design-vue";
   const queryParam = ref<any>({});
   const toggleSearchStatus = ref<boolean>(false);
   const detailModal = ref();
@@ -160,7 +164,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
       canResize:false,
       useSearchForm: false,
       actionColumn: {
-        width: 120,
+        width: 160,
         fixed: 'right',
       },
       beforeFetch: (params) => {
@@ -365,6 +369,17 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
         label: '编辑',
         onClick: handleEdit.bind(null, record),
       },
+      {
+        label: record.status==='0'?'下架':'上架',
+        onClick: ()=>{
+          saveOrUpdate({id: record.id, status: record.status==='0'?1:0}, true).then((res)=>{
+            if(res.success){
+              message.success(record.status==='0'?"下架":"上架"+"成功");
+              reload();
+            }
+          })
+        },
+      },
     ];
   }
 
@@ -436,7 +451,7 @@ const collaboratorParam = ref<any>({name: '', types: '1, 2', currentPage: 1})
    * 重置
    */
   function searchReset() {
-    queryParam.value = {};
+    queryParam.value = {lft: queryParam.value.lft, rgt: queryParam.value.rgt };
     selectedRowKeys.value = [];
     //刷新数据
     reload();
