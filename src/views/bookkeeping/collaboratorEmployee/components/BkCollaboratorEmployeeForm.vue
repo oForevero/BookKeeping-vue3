@@ -14,7 +14,13 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="合作状态" v-bind="validateInfos.employeeStatus">
-            <j-dict-select-tag dict-code="worker_status" v-model:value="formData.employeeStatus" :stringToNumber="true" :disabled="disabled" />
+            <a-select
+              v-model:value="formData.companyId"
+              :options="employeeStatusOptions"
+              placeholder="请选择员工状态"
+              :disabled="disabled"
+              allow-clear
+            />
           </a-form-item>
         </a-col>
       </a-row>
@@ -24,13 +30,15 @@
 
 <script lang="ts" setup>
 import { ref, reactive, defineExpose, nextTick, defineProps, computed, onMounted } from 'vue';
-import { defHttp } from '/@/utils/http/axios';
+import { list } from '/@/views/bookkeeping/collaborator/BkCollaborator.api';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { getValueType } from '/@/utils';
 import { saveOrUpdate } from '../BkCollaboratorEmployee.api';
 import { Form } from 'ant-design-vue';
 import JDictSelectTag from "/@/components/Form/src/jeecg/components/JDictSelectTag.vue";
-
+const employeeStatusOptions = ref<
+  { label: string; value: number | string }[]
+>([]);
 const props = defineProps({
   formDisabled: { type: Boolean, default: false },
   formData: { type: Object, default: ()=>{} },
@@ -38,7 +46,7 @@ const props = defineProps({
 });
 const formRef = ref();
 const useForm = Form.useForm;
-const emit = defineEmits(['register', 'ok']);
+const emit = defineEmits(['register', 'ok', 'success']);
 const formData = reactive<Record<string, any>>({
   id: '',
   employeeName: '',
@@ -67,9 +75,6 @@ const disabled = computed(()=>{
   return props.formDisabled;
 });
 
-const showDetail = ref(false);
-
-
 /**
  * 新增
  */
@@ -83,6 +88,14 @@ function add(record) {
  */
 function edit(record) {
   nextTick(() => {
+    list({}).then(res=>{
+      if (res?.records) {
+        employeeStatusOptions.value = res.records.map(item => ({
+          label: item.companyName,   // 接口里的展示字段
+          value: item.id, // 接口里的值
+        }));
+      }
+    });
     resetFields();
     Object.assign(formData, record.record);
   });
@@ -109,7 +122,7 @@ async function submitForm() {
   }
   await saveOrUpdate(model, isUpdate.value)
     .then((res) => {
-      if (res.success) {
+      if (res) {
         createMessage.success(res.message);
         emit('ok');
       } else {

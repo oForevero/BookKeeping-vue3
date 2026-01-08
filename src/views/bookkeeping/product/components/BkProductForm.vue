@@ -34,7 +34,9 @@
         </a-col>
         <a-col :span="24">
           <a-form-item label="建议零售价" v-bind="validateInfos.price">
-            <a-input-number v-model:value="formData.price" placeholder="建议零售价" style="width: 100%" />
+            <a-input-number v-model:value="formData.price" placeholder="请输入建议零售价" style="width: 100%">
+              <template #addonAfter>￥</template>
+            </a-input-number>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -45,6 +47,20 @@
         <a-col :span="24">
           <a-form-item label="商品数量" v-bind="validateInfos.amount">
             <a-input-number v-model:value="formData.amount" placeholder="请输入商品数量" style="width: 100%" />
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="平均进价" v-bind="validateInfos.avgPurchasePrice">
+            <a-input-number v-model:value="formData.avgPurchasePrice" placeholder="请输入平均进价" style="width: 100%">
+              <template #addonAfter>￥</template>
+            </a-input-number>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label="最新进价" v-bind="validateInfos.latestPurchasePrice">
+            <a-input-number v-model:value="formData.latestPurchasePrice" placeholder="请输入最新进价" style="width: 100%" >
+              <template #addonAfter>￥</template>
+            </a-input-number>
           </a-form-item>
         </a-col>
         <a-col :span="24">
