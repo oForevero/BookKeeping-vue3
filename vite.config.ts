@@ -67,7 +67,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
       //打包使用配置
       minify: 'esbuild',
-      target: 'es2015',
+      target: 'esnext', // 或 'es2022'
       cssTarget: 'chrome80',
       outDir: OUTPUT_DIR,
       terserOptions: {
@@ -102,7 +102,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 
     optimizeDeps: {
       esbuildOptions: {
-        target: 'es2020',
+        target: 'esnext',
       },
       // @iconify/iconify: The dependency is dynamically and virtually loaded by @purge-icons/generated, so it needs to be specified explicitly
       include: [
