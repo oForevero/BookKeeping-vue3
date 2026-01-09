@@ -6,6 +6,7 @@ const { createConfirm } = useMessage();
 enum Api {
   list = '/bookkeeping/bkProduct/list',
   listRelationTree = "/bookkeeping/bkProductRelation/listTree",
+  loadProducts = "/bookkeeping/bkProduct/listTree/children",
   deleteRelationItem = "/bookkeeping/bkProductRelation/delete",
   listBrand = "/bookkeeping/bkBrand/list",
   listCollaborator = "/bookkeeping/bkCollaborator/listPurchaseGroup",
@@ -39,6 +40,11 @@ export const list = (params) => defHttp.get({ url: Api.list, params });
  */
 export const relationListTree = () =>
   defHttp.get({url: Api.listRelationTree}).then((res) =>{
+    return res;
+  });
+
+export const loadProducts = () =>
+  defHttp.get({url: Api.loadProducts}).then((res) =>{
     return res;
   });
 

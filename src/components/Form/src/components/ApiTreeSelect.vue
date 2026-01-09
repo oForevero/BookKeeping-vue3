@@ -78,6 +78,8 @@
         }
         treeData.value = (result as Recordable[]) || [];
         isFirstLoaded.value = true;
+        console.log('--- 最终赋给 treeData 的值 ---', treeData.value);
+        console.log('--- 当前组件收到的所有 attrs ---', attrs);
         emit('options-change', treeData.value);
       }
       return { getAttrs, loading, handleChange };
